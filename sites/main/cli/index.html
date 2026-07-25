@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="amber">
 <head>
 <meta charset="UTF-8">
@@ -664,7 +664,7 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
       <li><a href="https://dosa.emtypyie.in">dosa</a></li>
       <li><a href="https://emtypyie.in/portfolio">portfolio</a></li>
       <li><a href="/blogs/index.html">blog</a></li>
-      <li><a href="https://github.com/myrachane" target="_blank" rel="noopener">github</a></li>
+      <li><a href="https://github.com/emtypyie" target="_blank" rel="noopener">github</a></li>
     </ul>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle terminal color" title="Toggle theme">
       <span class="icon-sun">AMB</span>
@@ -682,7 +682,7 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
   <a href="https://dosa.emtypyie.in">Dosa</a>
   <a href="https://emtypyie.in/portfolio">Portfolio</a>
   <a href="/blogs/index.html">Blog</a>
-  <a href="https://github.com/myrachane" target="_blank" rel="noopener">GitHub</a>
+  <a href="https://github.com/emtypyie" target="_blank" rel="noopener">GitHub</a>
 </div>
 
 <button class="support-fab" id="support-fab" type="button">
@@ -713,7 +713,7 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
       <p>Install the native C binary (recommended) or the Node.js version</p>
     </div>
     <div class="install-cmd">
-      <code>winget install myrachane.emtypyie-cli</code>
+      <code>winget install emtypyie.emtypyie-cli</code>
       <button class="install-copy" id="install-copy-winget-btn" type="button">Copy</button>
     </div>
     <div class="install-cmd">
@@ -729,7 +729,7 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
       <a class="download-btn" id="dl-native" href="#">&#9660; C Native EXE <span class="size">loading</span></a>
       <a class="download-btn" id="dl-node" href="#">&#9660; Node.js EXE <span class="size">loading</span></a>
     </div>
-    <p class="install-gh-link" style="margin-top:0.8rem;"><a href="https://github.com/myrachane/emtypyie-cli" target="_blank" rel="noopener">Report issues on GitHub</a></p>
+    <p class="install-gh-link" style="margin-top:0.8rem;"><a href="https://github.com/emtypyie/emtypyie-cli" target="_blank" rel="noopener">Report issues on GitHub</a></p>
   </div>
 </section>
 
@@ -885,7 +885,7 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
       </div>
       <div class="cmd-card">
         <div class="cmd-name">Winget Support</div>
-        <div class="cmd-desc">Install via winget: myrachane.emtypyie-cli</div>
+        <div class="cmd-desc">Install via winget: emtypyie.emtypyie-cli</div>
       </div>
       <div class="cmd-card">
         <div class="cmd-name">Larpino AI Engine</div>
@@ -1056,7 +1056,7 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
           <span class="faq-icon"></span>
         </button>
         <div class="faq-answer-wrap"><div class="faq-answer-inner"><div class="faq-answer">
-          Open an issue on the <a href="https://github.com/myrachane/emtypyie-cli" target="_blank" rel="noopener" style="color:var(--accent-text);">GitHub repo</a>. Bug reports, feature requests, and pull requests are all welcome &mdash; this is a solo, spare-time project, so response times vary, but every issue gets read.
+          Open an issue on the <a href="https://github.com/emtypyie/emtypyie-cli" target="_blank" rel="noopener" style="color:var(--accent-text);">GitHub repo</a>. Bug reports, feature requests, and pull requests are all welcome &mdash; this is a solo, spare-time project, so response times vary, but every issue gets read.
         </div></div></div>
       </div>
 
@@ -1202,11 +1202,11 @@ fetch('https://registry.npmjs.org/emtypyie-cli/latest')
     const nativeSize = data._nativeSize || '60 KB';
     const nodeSize = data._nodeSize || '14 MB';
     if (nativeBtn) {
-      nativeBtn.href = `https://github.com/myrachane/emtypyie-cli/releases/download/v${v}/emtypyie-cli-native-windows-x64-${v}.zip`;
+      nativeBtn.href = `https://github.com/emtypyie/emtypyie-cli/releases/download/v${v}/emtypyie-cli-native-windows-x64-${v}.zip`;
       nativeBtn.querySelector('.size').textContent = nativeSize;
     }
     if (nodeBtn) {
-      nodeBtn.href = `https://github.com/myrachane/emtypyie-cli/releases/download/v${v}/emtypyie-cli-windows-x64-${v}.zip`;
+      nodeBtn.href = `https://github.com/emtypyie/emtypyie-cli/releases/download/v${v}/emtypyie-cli-windows-x64-${v}.zip`;
       nodeBtn.querySelector('.size').textContent = nodeSize;
     }
   })
@@ -1242,7 +1242,7 @@ copyBtn.addEventListener('click', () => {
 
 const wingetCopyBtn = document.getElementById('install-copy-winget-btn');
 wingetCopyBtn.addEventListener('click', () => {
-  navigator.clipboard.writeText('winget install myrachane.emtypyie-cli').then(() => {
+  navigator.clipboard.writeText('winget install emtypyie.emtypyie-cli').then(() => {
     wingetCopyBtn.textContent = 'Copied!';
     wingetCopyBtn.classList.add('copied');
     setTimeout(() => {
