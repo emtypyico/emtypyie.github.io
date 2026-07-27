@@ -23,6 +23,8 @@
     --link: #4c5fd6;
     --code-bg: #f4f5f9;
     --sidebar-active-bg: #eef0fb;
+    --green: #2f6b3e;
+    --amber: #92400e;
     --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
     --font-pixel: "Press Start 2P", "Courier New", var(--font-mono);
@@ -36,6 +38,8 @@
     --link: #7d8fff;
     --code-bg: #161b22;
     --sidebar-active-bg: #1a1f2e;
+    --green: #3fb950;
+    --amber: #d29922;
   }
   *,*::before,*::after{ box-sizing:border-box; }
   html,body{ margin:0; padding:0; }
@@ -520,7 +524,6 @@
 
 <header class="topbar">
   <span class="brand">
-    <span class="logo">K</span>
     <span class="brand-text"><a href="https://wiki.emtypyie.in" target="_blank" rel="noopener">wiki</a><span style="opacity:.7; font-weight:400;"> / </span><a href="https://wiki.emtypyie.in/devlogs/kepler" target="_blank" rel="noopener">kepler</a></span>
   </span>
   <div class="search-wrap">
@@ -590,7 +593,7 @@
     </p>
 
     <div class="notice">
-      <span class="notice-icon">⚠</span>
+      <span class="notice-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
       <div>
         <strong>Early stage.</strong> pyieOS is coming soon. The backend API and ediary are stable.
         Join the development if you want to help shape the platform.
@@ -626,8 +629,8 @@ docker compose up -d</code></pre>
     <h2 id="services">Services</h2>
     <table>
       <tr><th>Service</th><th>Status</th><th>Description</th></tr>
-      <tr><td><strong>ediary</strong></td><td>✅ Available</td><td>Markdown note-taking with full-text search, tags, and file attachments</td></tr>
-      <tr><td><strong>pyieOS</strong></td><td>🚧 Coming Soon</td><td>System dashboard: CPU, RAM, disk, network, service manager</td></tr>
+      <tr><td><strong>ediary</strong></td><td><span style="color:var(--green)">Available</span></td><td>Markdown note-taking with full-text search, tags, and file attachments</td></tr>
+      <tr><td><strong>pyieOS</strong></td><td><span style="color:var(--amber)">Coming Soon</span></td><td>System dashboard: CPU, RAM, disk, network, service manager</td></tr>
     </table>
 
     <h3>ediary</h3>
@@ -743,9 +746,9 @@ docker compose up -d</code></pre>
 
     <h2 id="contributors">Contributors</h2>
     <div class="contributor-card">
-      <div class="contributor-pfp">S</div>
+      <div class="contributor-pfp">E</div>
       <div>
-        <span class="contributor-name">Subhadeep Das (emtypyie)</span>
+        <span class="contributor-name">emtypyie</span>
         <span class="contributor-role">creator & maintainer</span>
       </div>
     </div>
