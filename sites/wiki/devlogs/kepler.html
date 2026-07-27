@@ -392,8 +392,10 @@
   .contributor-pfp{
     width:30px;height:30px;border-radius:50%;
     overflow:hidden;
-    object-fit:cover;
     flex-shrink:0;
+  }
+  .contributor-pfp img{
+    width:100%;height:100%;object-fit:cover;border-radius:50%;
   }
   .contributor-name{ font-weight:600; font-size:13.5px; }
   .contributor-role{ font-size:11.5px; color:var(--text-faint); display:block; }
@@ -746,7 +748,7 @@ docker compose up -d</code></pre>
 
     <h2 id="contributors">Contributors</h2>
     <a class="contributor-card" href="https://github.com/emtypyie" target="_blank" rel="noopener">
-      <img class="contributor-pfp" src="https://github.com/emtypyie.png" alt="emtypyie" width="30" height="30" loading="lazy" />
+      <div class="contributor-pfp"><img src="https://github.com/emtypyie.png" alt="emtypyie" width="30" height="30" loading="lazy" /></div>
       <div>
         <span class="contributor-name">emtypyie</span>
         <span class="contributor-role">creator & maintainer</span>
