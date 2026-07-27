@@ -1,6 +1,15 @@
 {
   "projects": [
     {
+      "id": "kepler.html",
+      "name": "Kepler",
+      "nameHi": "केप्लर",
+      "desc": "Local-first service hub — ediary, pyieOS, and more on your own machine. One command install, runs as background service. No cloud, no tracking.",
+      "status": "active",
+      "updated": "2026-07-26",
+      "lang": "javascript"
+    },
+    {
       "id": "slyr.html",
       "name": "Slyr.cpp",
       "nameHi": "स्लायर.सीपीपी",
