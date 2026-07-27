@@ -335,76 +335,54 @@ nav {
   display: flex;
   flex-direction: column;
 }
+.promo-card {
+  position: relative;
+}
 .promo-card:hover {
   border-color: var(--orange);
   box-shadow: 0 12px 32px rgba(0,0,0,0.1);
 }
 
-/* Kepler card — blue variant */
-.promo-card.promo-card-blue {
-  background: var(--blue);
-  border-color: var(--blue);
+/* Accent variant — shared behavior for the CLI/Kepler cards.
+   Color is used the same way the rest of the site uses --orange:
+   a thin top rule + a whisper of tint, not a solid fill. */
+.promo-card-accent::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  z-index: 1;
 }
-.promo-card.promo-card-blue:hover {
-  border-color: #2f6bb0;
-  box-shadow: 0 12px 32px rgba(29,78,137,0.35);
+.promo-card-accent .promo-tagline {
+  font-weight: 500;
 }
-.promo-card.promo-card-blue .section-label {
-  color: rgba(255,255,255,0.6);
-}
-.promo-card.promo-card-blue .section-label::after {
-  background: rgba(255,255,255,0.2);
-}
-.promo-card.promo-card-blue .promo-body h2 {
+.promo-card-accent .promo-cta {
   color: #fff;
 }
-.promo-card.promo-card-blue .promo-tagline {
-  color: #cfe0f5;
-}
-.promo-card.promo-card-blue .promo-desc {
-  color: rgba(255,255,255,0.82);
-}
-.promo-card.promo-card-blue .promo-cta {
-  background: #fff;
-  color: var(--blue);
-}
-.promo-card.promo-card-blue .promo-cta:hover {
-  background: #ede7dc;
-  color: var(--orange-deep);
+.promo-card-accent .promo-cta:hover {
+  filter: brightness(0.9);
+  transform: translateY(-1px);
 }
 
-/* CLI card — amber variant */
-.promo-card.promo-card-amber {
-  background: #b45309;
-  border-color: #b45309;
+/* CLI card — amber */
+.promo-card-amber {
+  background: linear-gradient(165deg, rgba(180,83,9,0.09), var(--bg) 55%);
 }
-.promo-card.promo-card-amber:hover {
-  border-color: #d97706;
-  box-shadow: 0 12px 32px rgba(180,83,9,0.35);
+.promo-card-amber::before { background: #b45309; }
+.promo-card-amber:hover { border-color: #b45309; box-shadow: 0 14px 34px rgba(180,83,9,0.2); }
+.promo-card-amber .promo-tagline { color: #b45309; }
+.promo-card-amber .promo-cta { background: #b45309; }
+.promo-card-amber .promo-gh:hover { border-color: #b45309; color: #b45309; }
+.promo-card-amber .promo-prompt .cursor { background: #b45309; }
+
+/* Kepler card — blue */
+.promo-card-blue {
+  background: linear-gradient(165deg, rgba(29,78,137,0.09), var(--bg) 55%);
 }
-.promo-card.promo-card-amber .section-label {
-  color: rgba(255,255,255,0.6);
-}
-.promo-card.promo-card-amber .section-label::after {
-  background: rgba(255,255,255,0.2);
-}
-.promo-card.promo-card-amber .promo-body h2 {
-  color: #fff;
-}
-.promo-card.promo-card-amber .promo-tagline {
-  color: #fde3c4;
-}
-.promo-card.promo-card-amber .promo-desc {
-  color: rgba(255,255,255,0.85);
-}
-.promo-card.promo-card-amber .promo-cta {
-  background: #fff;
-  color: #b45309;
-}
-.promo-card.promo-card-amber .promo-cta:hover {
-  background: #ede7dc;
-  color: #8c3f15;
-}
+.promo-card-blue::before { background: var(--blue); }
+.promo-card-blue:hover { border-color: var(--blue); box-shadow: 0 14px 34px rgba(29,78,137,0.2); }
+.promo-card-blue .promo-tagline { color: var(--blue); }
+.promo-card-blue .promo-cta { background: var(--blue); }
+.promo-card-blue .promo-gh:hover { border-color: var(--blue); color: var(--blue); }
+.promo-card-blue .promo-prompt .cursor { background: var(--blue); }
 
 .promo-bar {
   display: flex;
@@ -1186,7 +1164,7 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
 <!-- CLI + KEPLER PROMO (side by side) -->
 <section class="promo-duo">
   <!-- CLI PROMO -->
-  <div class="promo-card promo-card-amber">
+  <div class="promo-card promo-card-accent promo-card-amber">
     <p class="section-label" style="padding: 1rem 1.2rem 0;">command line interface</p>
     <div class="promo-bar">
       <span class="promo-dot r"></span>
@@ -1204,7 +1182,7 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
   </div>
 
   <!-- KEPLER PROMO -->
-  <div class="promo-card promo-card-blue">
+  <div class="promo-card promo-card-accent promo-card-blue">
     <p class="section-label" style="padding: 1rem 1.2rem 0;">local service hub</p>
     <div class="promo-bar">
       <span class="promo-dot r"></span>
