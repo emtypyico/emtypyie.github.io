@@ -340,6 +340,72 @@ nav {
   box-shadow: 0 12px 32px rgba(0,0,0,0.1);
 }
 
+/* Kepler card — blue variant */
+.promo-card.promo-card-blue {
+  background: var(--blue);
+  border-color: var(--blue);
+}
+.promo-card.promo-card-blue:hover {
+  border-color: #2f6bb0;
+  box-shadow: 0 12px 32px rgba(29,78,137,0.35);
+}
+.promo-card.promo-card-blue .section-label {
+  color: rgba(255,255,255,0.6);
+}
+.promo-card.promo-card-blue .section-label::after {
+  background: rgba(255,255,255,0.2);
+}
+.promo-card.promo-card-blue .promo-body h2 {
+  color: #fff;
+}
+.promo-card.promo-card-blue .promo-tagline {
+  color: #cfe0f5;
+}
+.promo-card.promo-card-blue .promo-desc {
+  color: rgba(255,255,255,0.82);
+}
+.promo-card.promo-card-blue .promo-cta {
+  background: #fff;
+  color: var(--blue);
+}
+.promo-card.promo-card-blue .promo-cta:hover {
+  background: #ede7dc;
+  color: var(--orange-deep);
+}
+
+/* CLI card — amber variant */
+.promo-card.promo-card-amber {
+  background: #b45309;
+  border-color: #b45309;
+}
+.promo-card.promo-card-amber:hover {
+  border-color: #d97706;
+  box-shadow: 0 12px 32px rgba(180,83,9,0.35);
+}
+.promo-card.promo-card-amber .section-label {
+  color: rgba(255,255,255,0.6);
+}
+.promo-card.promo-card-amber .section-label::after {
+  background: rgba(255,255,255,0.2);
+}
+.promo-card.promo-card-amber .promo-body h2 {
+  color: #fff;
+}
+.promo-card.promo-card-amber .promo-tagline {
+  color: #fde3c4;
+}
+.promo-card.promo-card-amber .promo-desc {
+  color: rgba(255,255,255,0.85);
+}
+.promo-card.promo-card-amber .promo-cta {
+  background: #fff;
+  color: #b45309;
+}
+.promo-card.promo-card-amber .promo-cta:hover {
+  background: #ede7dc;
+  color: #8c3f15;
+}
+
 .promo-bar {
   display: flex;
   align-items: center;
@@ -1120,7 +1186,7 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
 <!-- CLI + KEPLER PROMO (side by side) -->
 <section class="promo-duo">
   <!-- CLI PROMO -->
-  <div class="promo-card">
+  <div class="promo-card promo-card-amber">
     <p class="section-label" style="padding: 1rem 1.2rem 0;">command line interface</p>
     <div class="promo-bar">
       <span class="promo-dot r"></span>
@@ -1138,7 +1204,7 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
   </div>
 
   <!-- KEPLER PROMO -->
-  <div class="promo-card">
+  <div class="promo-card promo-card-blue">
     <p class="section-label" style="padding: 1rem 1.2rem 0;">local service hub</p>
     <div class="promo-bar">
       <span class="promo-dot r"></span>
