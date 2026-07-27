@@ -391,9 +391,9 @@
   }
   .contributor-pfp{
     width:30px;height:30px;border-radius:50%;
-    background:#eef0fb;color:var(--bar-blue);
-    display:flex;align-items:center;justify-content:center;
-    font-weight:700; font-size:13px;
+    overflow:hidden;
+    object-fit:cover;
+    flex-shrink:0;
   }
   .contributor-name{ font-weight:600; font-size:13.5px; }
   .contributor-role{ font-size:11.5px; color:var(--text-faint); display:block; }
@@ -745,13 +745,13 @@ docker compose up -d</code></pre>
     </div>
 
     <h2 id="contributors">Contributors</h2>
-    <div class="contributor-card">
-      <div class="contributor-pfp">E</div>
+    <a class="contributor-card" href="https://github.com/emtypyie" target="_blank" rel="noopener">
+      <img class="contributor-pfp" src="https://github.com/emtypyie.png" alt="emtypyie" width="30" height="30" loading="lazy" />
       <div>
         <span class="contributor-name">emtypyie</span>
         <span class="contributor-role">creator & maintainer</span>
       </div>
-    </div>
+    </a>
     <p><a href="https://github.com/emtypyie/kepler" target="_blank" rel="noopener">See more on github.com/emtypyie/kepler →</a></p>
 
   </main>
