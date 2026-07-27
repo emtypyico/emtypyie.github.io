@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
@@ -315,11 +315,7 @@ nav {
   gap: 1.5rem;
   max-width: 1200px;
   margin: 0 auto;
-}
-
-.promo-duo .cli-inner {
-  padding: 0;
-  max-width: none;
+  padding: 4rem 3rem 4.5rem;
 }
 
 @media (max-width: 900px) {
@@ -897,6 +893,7 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
   .quote { font-size: clamp(1.1rem, 4vw, 1.5rem); white-space: normal; }
 
   .cli-inner { padding: 3rem 1.4rem 3.5rem; }
+  .promo-duo { padding: 3rem 1.4rem 3.5rem; }
   .cli-card-body { padding: 1.8rem 1.4rem; }
   .cli-card-body h2 { font-size: clamp(1.4rem, 6vw, 1.8rem); }
 
@@ -931,6 +928,7 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
   .hero { padding: 7vh 2rem 5vh; gap: 2rem; }
   .hero-site-name { font-size: clamp(1.6rem, 3vw, 2.2rem); }
   .cli-inner { padding: 3.5rem 2rem; }
+  .promo-duo { padding: 3.5rem 2rem; }
   .cli-card-body { padding: 2.2rem 1.8rem; }
   .writing-inner, .blog-inner { padding: 3.5rem 2rem; }
   .blog-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1120,49 +1118,43 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
 </section>
 
 <!-- CLI + KEPLER PROMO (side by side) -->
-  <section class="promo-duo">
-    <div class="promo-duo-inner">
-      <!-- CLI PROMO -->
-      <div class="promo-card">
-        <p class="section-label">command line interface</p>
-        <div class="promo-card-inner">
-          <div class="promo-bar">
-            <span class="promo-dot r"></span>
-            <span class="promo-dot y"></span>
-            <span class="promo-dot g"></span>
-            <span class="promo-prompt"><span class="prompt-sym">~ $</span> emtypyie<span class="cursor"></span></span>
-            <a class="promo-gh" href="https://github.com/emtypyie/emtypyie-cli" target="_blank" rel="noopener">GitHub</a>
-          </div>
-          <div class="promo-body">
-            <h2>EMTYPYIE CLI is here!</h2>
-            <p class="promo-tagline">code. create. conquer.</p>
-            <p class="promo-desc">Run emtypyie projects from your terminal with ease &mdash; the future runtime engine.</p>
-            <a class="promo-cta" href="/cli">Know more &rarr;</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- KEPLER PROMO -->
-      <div class="promo-card">
-        <p class="section-label">local service hub</p>
-        <div class="promo-card-inner">
-          <div class="promo-bar">
-            <span class="promo-dot r"></span>
-            <span class="promo-dot y"></span>
-            <span class="promo-dot g"></span>
-            <span class="promo-prompt"><span class="prompt-sym">~ $</span> kepler<span class="cursor"></span></span>
-            <a class="promo-gh" href="https://github.com/emtypyie/kepler" target="_blank" rel="noopener">GitHub</a>
-          </div>
-          <div class="promo-body">
-            <h2>KEPLER by Emtypyie</h2>
-            <p class="promo-tagline">Make your homeserver better.</p>
-            <p class="promo-desc">Local-first service hub running ediary, pyieOS & more. One command install, runs as background service.</p>
-            <a class="promo-cta" href="https://kepler.emtypyie.in">Get Kepler &rarr;</a>
-          </div>
-        </div>
-      </div>
+<section class="promo-duo">
+  <!-- CLI PROMO -->
+  <div class="promo-card">
+    <p class="section-label" style="padding: 1rem 1.2rem 0;">command line interface</p>
+    <div class="promo-bar">
+      <span class="promo-dot r"></span>
+      <span class="promo-dot y"></span>
+      <span class="promo-dot g"></span>
+      <span class="promo-prompt"><span class="prompt-sym">~ $</span> emtypyie<span class="cursor"></span></span>
+      <a class="promo-gh" href="https://github.com/emtypyie/emtypyie-cli" target="_blank" rel="noopener">GitHub</a>
     </div>
-  </section>
+    <div class="promo-body">
+      <h2>EMTYPYIE CLI is here!</h2>
+      <p class="promo-tagline">code. create. conquer.</p>
+      <p class="promo-desc">Run emtypyie projects from your terminal with ease &mdash; the future runtime engine.</p>
+      <a class="promo-cta" href="/cli">Know more &rarr;</a>
+    </div>
+  </div>
+
+  <!-- KEPLER PROMO -->
+  <div class="promo-card">
+    <p class="section-label" style="padding: 1rem 1.2rem 0;">local service hub</p>
+    <div class="promo-bar">
+      <span class="promo-dot r"></span>
+      <span class="promo-dot y"></span>
+      <span class="promo-dot g"></span>
+      <span class="promo-prompt"><span class="prompt-sym">~ $</span> kepler<span class="cursor"></span></span>
+      <a class="promo-gh" href="https://github.com/emtypyie/kepler" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <div class="promo-body">
+      <h2>KEPLER by Emtypyie</h2>
+      <p class="promo-tagline">Make your homeserver better.</p>
+      <p class="promo-desc">Local-first service hub running ediary, pyieOS &amp; more. One command install, runs as background service.</p>
+      <a class="promo-cta" href="https://kepler.emtypyie.in">Get Kepler &rarr;</a>
+    </div>
+  </div>
+</section>
 
 <!-- WRITING SECTION -->
 <section class="writing-section" id="writing">
