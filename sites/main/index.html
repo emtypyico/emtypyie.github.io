@@ -1249,56 +1249,61 @@ function probeImage(url) {
 }
 
 async function loadBanners() {
-  const slots = [];
+  // Always show Kepler announcement first
+  const keplerSlide = KEPLER_ANNOUNCEMENT.html;
+  
+  // Then try to load existing banner images (non-blocking, limited)
+  const results = [];
   for (let i = 1; i <= BANNER_MAX; i++) {
-    slots.push((async () => {
-      for (const ext of BANNER_EXTS) {
-        const ok = await probeImage(`${BANNER_BASE}${i}${ext}`);
-        if (ok) return { i, url: ok };
-      }
-      return null;
-    })());
+    // Try only webp and jpg (most common) to reduce failed requests
+    for (const ext of ['.webp', '.jpg']) {
+      const url = `${BANNER_BASE}${i}${ext}`;
+      try {
+        const ok = await probeImage(url);
+        if (ok) { results.push({ i, url: ok }); break; }
+      } catch {}
+    }
   }
-
-  const results = (await Promise.all(slots)).filter(Boolean).sort((a, b) => a.i - b.i).map(r => r.url);
-  if (!results.length) return;
-
-  // Prepend Kepler announcement
-  const allSlides = [KEPLER_ANNOUNCEMENT.html, ...results.map(url =>
-    `<div class="banner-slide"><img src="${url}" alt="Banner" loading="lazy"></div>`
-  )];
-
+  
+  // Sort by index and extract URLs
+  const bannerSlides = results.sort((a, b) => a.i - b.i).map(r => 
+    `<div class="banner-slide"><img src="${r.url}" alt="Banner" loading="lazy"></div>`
+  );
+  
+  // Always include Kepler announcement as first slide
+  const allSlides = [keplerSlide, ...bannerSlides];
+  
   const section = document.getElementById('banner-section');
   const track = document.getElementById('banner-track');
   const dots = document.getElementById('banner-dots');
-
+  
   track.innerHTML = allSlides.join('');
   dots.innerHTML = allSlides.map((_, i) =>
     `<span class="banner-dot${i === 0 ? ' active' : ''}" data-index="${i}"></span>`
   ).join('');
   section.style.display = 'block';
-
+  
   let current = 0;
   const total = allSlides.length;
-
+  
   function goTo(idx) {
     current = (idx + total) % total;
     track.style.transform = `translateX(-${current * 100}%)`;
     dots.querySelectorAll('.banner-dot').forEach((d, i) => d.classList.toggle('active', i === current));
   }
-
+  
   document.getElementById('banner-prev').addEventListener('click', () => goTo(current - 1));
   document.getElementById('banner-next').addEventListener('click', () => goTo(current + 1));
   dots.querySelectorAll('.banner-dot').forEach(d =>
     d.addEventListener('click', () => goTo(parseInt(d.dataset.index, 10)))
   );
-
+  
   if (total > 1) {
     let autoplay = setInterval(() => goTo(current + 1), 5000);
     const viewport = document.getElementById('banner-viewport');
     viewport.addEventListener('mouseenter', () => clearInterval(autoplay));
     viewport.addEventListener('mouseleave', () => { autoplay = setInterval(() => goTo(current + 1), 5000); });
-
+    
     let touchStartX = 0;
     viewport.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
     viewport.addEventListener('touchend', e => {
