@@ -24,7 +24,7 @@
   },
   "educationalCredentialAwarded": {
     "@type": "EducationalOccupationalCredential",
-    "credentialCategory": "Bachelor of Technology",
+    "credentialCategory": "Bachelor of Science",
     "recognizedBy": {
       "@type": "Organization",
       "name": "Indian Institute of Technology Madras"
@@ -50,7 +50,7 @@
     "description": "Project package manager and core runtime"
   },
   "knowsLanguage": ["English", "Bengali", "Hindi"],
-  "award": "JEE Advanced Qualifier",
+  "award": "",
   "project": [
     {
       "@type": "CreativeWork",
