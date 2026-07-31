@@ -1014,7 +1014,35 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
   display: flex; align-items: center; gap: 0.5rem;
 }
 .nav-mobile-menu a:last-child { border-bottom: none; }
-.nav-mobile-menu a:hover { color: var(--orange); }
+  .nav-mobile-menu a:hover { color: var(--orange); }
+
+.hero-bg-fineshit {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: calc(100% * (1.3 / 5));
+  height: auto;
+  background-image: url('https://cdn.emtypyie.in/assets/fineshit.webp');
+  background-size: contain;
+  background-position: left bottom;
+  background-repeat: no-repeat;
+  z-index: 0;
+  opacity: 0.15;
+  pointer-events: none;
+  transform: translateY(15%);
+}
+
+/* Footer - made smaller */
+footer .footer-inner {
+  padding: 1.5rem 2.5rem;
+  gap: 1.5rem;
+}
+footer .footer-bottom {
+  padding: 1rem 2.5rem 1.5rem;
+}
+footer .footer-bottom-logo {
+  height: 80px;
+}
 
 @media (max-width: 768px) {
   .nav-hamburger { display: flex; }
@@ -1121,6 +1149,7 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
     <p class="eyebrow">emtypyie.in</p>
     <h1 class="hero-site-name">EMTYPYIE<span class="dot">.</span>IN</h1>
     <p class="hero-tagline">A space where I live less like a digital identity but more like a home.</p>
+    <div class="hero-bg-fineshit"></div>
   </div>
   <div class="hero-right">
     <div class="hero-stats">
@@ -1159,6 +1188,8 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
         <div class="hero-fc-name">Dosa</div>
         <div class="hero-fc-desc">Directory of Open Space Autonomy.</div>
       </a>
+    </div>
+  </div>
     </div>
   </div>
 </section>
@@ -1285,7 +1316,6 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
     </div>
     <div class="footer-links">
       <a href="https://emtypyie.in/portfolio">emtypyie.in/portfolio</a>
-      <a href="https://wiki.emtypyie.in">wiki.emtypyie.in</a>
       <a href="#" onclick="openModal('privacy'); return false;">privacy policy</a>
       <a href="#" onclick="openModal('disclaimer'); return false;">disclaimer</a>
     </div>
