@@ -1,9 +1,7 @@
 {
   "banners": [
-    {
-      "image": "https://cdn.emtypyie.in/assets/banner1.webp",
-      "alt": "banner 1",
-      "link": ""
-    }
+    { "text": "emtypyie.in - a small corner of the internet" },
+    { "text": "dusk blade: ongoing series, free to read" },
+    { "text": "kepler - make your homeserver better" }
   ]
 }

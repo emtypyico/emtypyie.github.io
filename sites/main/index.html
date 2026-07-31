@@ -231,6 +231,28 @@ nav {
 }
 .stat-label { color: var(--muted); letter-spacing: 0.04em; }
 
+/* ── TICKER BAR (small box above quotes) ── */
+.ticker-section { border-bottom: 1px solid var(--rule); }
+.ticker-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 1rem 3rem 0;
+  display: flex; justify-content: center;
+}
+.ticker-bar {
+  font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.04em;
+  color: var(--ink2);
+  background: var(--bg3);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 0.4rem 1.1rem;
+  text-align: center;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: opacity 0.3s ease;
+}
+
 /* ── MANIFESTO ── */
 .manifesto { border-bottom: 1px solid var(--rule); background: transparent; }
 .manifesto-inner {
@@ -990,6 +1012,8 @@ footer {
   .manifesto-inner { padding: 2.5rem 1.4rem; }
   .quote { font-size: clamp(1.1rem, 4vw, 1.5rem); white-space: normal; }
 
+  .ticker-inner { padding: 0.8rem 1.4rem 0; }
+
   .cli-inner { padding: 3rem 1.4rem 3.5rem; }
   .promo-duo { padding: 3rem 1.4rem 3.5rem; }
   .cli-card-body { padding: 1.8rem 1.4rem; }
@@ -1219,6 +1243,13 @@ footer {
     </div>
   </div>
     </div>
+  </div>
+</section>
+
+<!-- TICKER BAR -->
+<section class="ticker-section" id="ticker-section">
+  <div class="ticker-inner">
+    <div class="ticker-bar" id="ticker-bar"></div>
   </div>
 </section>
 
@@ -1493,7 +1524,7 @@ function toggleLike(date, btn) {
   btn.classList.toggle('liked', liked);
 }
 
-/* ── BANNER CAROUSEL (driven by banner.json, autoplay repetition) ── */
+/* ── BANNER CAROUSEL (image banners on CDN only; hidden when none exist) ── */
 const BANNER_BASE = 'https://cdn.emtypyie.in/assets/banner';
 const BANNER_MAX  = 8;
 
@@ -1506,19 +1537,7 @@ function probeImage(url) {
   });
 }
 
-async function loadBannerSlides() {
-  try {
-    const r = await fetch('/banner.json');
-    if (!r.ok) throw new Error();
-    const data = await r.json();
-    if (Array.isArray(data.banners) && data.banners.length) {
-      return data.banners.map((b, i) => ({
-        url: b.image || b.url || '',
-        alt: b.alt || `Banner ${i + 1}`,
-        link: b.link || null
-      })).filter(b => b.url);
-    }
-  } catch {}
+async function loadBanners() {
   const results = [];
   for (let i = 1; i <= BANNER_MAX; i++) {
     for (const ext of ['.webp', '.jpg']) {
@@ -1529,19 +1548,12 @@ async function loadBannerSlides() {
       } catch {}
     }
   }
-  return results.sort((a, b) => a.i - b.i).map(r => ({ url: r.url, alt: 'Banner' }));
-}
 
-async function loadBanners() {
-  const slides = await loadBannerSlides();
-  if (!slides.length) return;
+  const bannerSlides = results.sort((a, b) => a.i - b.i).map(r =>
+    `<div class="banner-slide"><img src="${r.url}" alt="Banner" loading="lazy"></div>`
+  );
 
-  const bannerSlides = slides.map(b => {
-    const img = `<img src="${b.url}" alt="${b.alt}" loading="lazy">`;
-    return b.link
-      ? `<div class="banner-slide"><a href="${b.link}" target="_blank" rel="noopener">${img}</a></div>`
-      : `<div class="banner-slide">${img}</div>`;
-  });
+  if (!bannerSlides.length) return;
 
   const section = document.getElementById('banner-section');
   const track = document.getElementById('banner-track');
@@ -1587,6 +1599,44 @@ async function loadBanners() {
   }
 }
 loadBanners();
+
+/* ── TICKER BAR (small rectangle box above quotes, driven by banner.json) ── */
+const TICKER_INTERVAL = 5000;
+
+async function loadTicker() {
+  const bar = document.getElementById('ticker-bar');
+  if (!bar) return;
+
+  let banners;
+  try {
+    const r = await fetch('/banner.json');
+    if (!r.ok) throw new Error();
+    banners = (await r.json()).banners || [];
+  } catch {
+    return;
+  }
+  if (!banners.length) {
+    const section = document.getElementById('ticker-section');
+    if (section) section.style.display = 'none';
+    return;
+  }
+
+  let idx = 0;
+  const apply = (i) => {
+    const b = banners[i % banners.length];
+    bar.style.opacity = '0';
+    setTimeout(() => {
+      bar.textContent = b.text;
+      bar.style.opacity = '1';
+    }, 300);
+  };
+
+  apply(idx);
+  if (banners.length > 1) {
+    setInterval(() => { idx = (idx + 1) % banners.length; apply(idx); }, TICKER_INTERVAL);
+  }
+}
+loadTicker();
 
 /* ── MANIFESTO QUOTES (rotating, driven by quotes.json) ── */
 const QUOTE_INTERVAL = 8000;
