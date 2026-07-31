@@ -2,13 +2,8 @@
   "banners": [
     {
       "image": "https://cdn.emtypyie.in/banner1.webp",
-      "link": "https://emtypyie.in/",
-      "alt": "banner 1"
-    },
-    {
-      "image": "https://cdn.emtypyie.in/banner2.webp",
-      "link": "https://emtypyie.in/",
-      "alt": "banner 2"
+      "link": "https://emtypyie.in/cli",
+      "alt": "emtypyie.cli"
     }
   ]
 }
