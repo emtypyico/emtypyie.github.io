@@ -179,6 +179,7 @@ nav {
   gap: 3rem;
   align-items: center;
   position: relative;
+  isolation: isolate;
 }
 .hero-left {}
 .eyebrow {
@@ -1024,13 +1025,11 @@ footer { border-top: 1px solid var(--rule); background: var(--bg2); transition: 
   width: 26vw;
   height: 60vh;
   max-width: 320px;
-  background-image: url('https://cdn.emtypyie.in/assets/fineshit.webp');
-  background-size: contain;
-  background-position: left bottom;
-  background-repeat: no-repeat;
+  object-fit: contain;
+  object-position: left bottom;
   z-index: -1;
-  opacity: 1;
   pointer-events: none;
+  display: block;
 }
 
 /* Footer - made smaller */
@@ -1150,7 +1149,7 @@ footer .footer-bottom-logo {
     <p class="eyebrow">emtypyie.in</p>
     <h1 class="hero-site-name">EMTYPYIE<span class="dot">.</span>IN</h1>
     <p class="hero-tagline">A space where I live less like a digital identity but more like a home.</p>
-    <div class="hero-bg-fineshit"></div>
+    <img class="hero-bg-fineshit" src="https://cdn.emtypyie.in/assets/fineshit.webp" alt="" loading="lazy">
   </div>
   <div class="hero-right">
     <div class="hero-stats">
@@ -1255,7 +1254,7 @@ footer .footer-bottom-logo {
     <div class="book-card">
       <div class="book-cover">
         <img
-          src="https://cdn.emtypyie.in/assets/duskblade.png"
+          src="https://cdn.emtypyie.in/assets/duskblade.webp"
           alt="Dusk Blade book cover"
           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
         >
