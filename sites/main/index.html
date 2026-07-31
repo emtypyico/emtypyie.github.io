@@ -243,11 +243,13 @@ nav {
   font-size: clamp(1.2rem, 2.5vw, 1.75rem); line-height: 1.4; color: var(--ink);
   max-width: 700px; margin: 0.3rem auto 0;
   white-space: nowrap;
+  transition: opacity 0.4s ease;
 }
 @media (max-width: 700px) { .quote { white-space: normal; } }
 .quote-attribution {
   font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--muted); margin-top: 1.1rem;
+  transition: opacity 0.4s ease;
 }
 
 /* ── CLI PROMO SECTION ── */
@@ -1226,8 +1228,8 @@ footer {
 <section class="manifesto">
   <div class="manifesto-inner">
     <p class="quote-mark">&ldquo;</p>
-    <p class="quote">My enemies are many, but my equals are none.</p>
-    <p class="quote-attribution">not a declaration of war (most probably)</p>
+    <p class="quote" id="manifesto-quote">My enemies are many, but my equals are none.</p>
+    <p class="quote-attribution" id="manifesto-attribution">not a declaration of war (most probably)</p>
   </div>
 </section>
 
@@ -1569,6 +1571,43 @@ async function loadBanners() {
   }
 }
 loadBanners();
+
+/* ── MANIFESTO QUOTES (rotating, driven by banner.json) ── */
+const QUOTE_INTERVAL = 8000;
+
+async function loadQuotes() {
+  const quoteEl = document.getElementById('manifesto-quote');
+  const attrEl  = document.getElementById('manifesto-attribution');
+  if (!quoteEl) return;
+
+  let quotes;
+  try {
+    const r = await fetch('/banner.json');
+    if (!r.ok) throw new Error();
+    quotes = (await r.json()).quotes || [];
+  } catch {
+    return;
+  }
+  if (!quotes.length) return;
+
+  let idx = Math.floor(Math.random() * quotes.length);
+
+  const apply = (i) => {
+    const q = quotes[i % quotes.length];
+    quoteEl.style.opacity = '0';
+    attrEl.style.opacity = '0';
+    setTimeout(() => {
+      quoteEl.textContent = q.text;
+      attrEl.textContent = q.attribution || '';
+      quoteEl.style.opacity = '1';
+      attrEl.style.opacity = '1';
+    }, 350);
+  };
+
+  apply(idx);
+  setInterval(() => { idx = (idx + 1) % quotes.length; apply(idx); }, QUOTE_INTERVAL);
+}
+loadQuotes();
 
 /* ── BLOG PREVIEW (home page — top 3 posts, links to real pages) ── */
 function fmtDate(str) {
