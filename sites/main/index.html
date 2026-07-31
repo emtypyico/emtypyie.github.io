@@ -156,29 +156,6 @@ nav {
 .support-fab:hover { transform: translateY(-1px); box-shadow: 0 5px 0 var(--orange-deep), 0 9px 16px rgba(0,0,0,0.25); }
 .support-fab:active { transform: translateY(4px); box-shadow: 0 0 0 var(--orange-deep); }
 
-/* ── BANNER CAROUSEL ── */
-.banner-section { border-bottom: 1px solid var(--rule); background: var(--bg2); display: none; }
-.banner-viewport {
-  max-width: 100%; margin: 0 auto; position: relative; overflow: hidden;
-  aspect-ratio: 16 / 6; background: var(--bg3);
-}
-.banner-track { display: flex; height: 100%; transition: transform 0.55s cubic-bezier(.65,0,.35,1); }
-.banner-slide { flex: 0 0 100%; height: 100%; }
-.banner-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.banner-nav {
-  position: absolute; top: 50%; transform: translateY(-50%); width: 32px; height: 32px;
-  border-radius: 50%; border: 1px solid var(--rule); background: rgba(0,0,0,0.3);
-  color: var(--ink); font-size: 1.1rem; line-height: 1; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: background 0.15s, color 0.15s;
-}
-.banner-nav:hover { background: var(--bg); color: var(--orange); }
-.banner-nav.prev { left: 12px; }
-.banner-nav.next { right: 12px; }
-.banner-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px; }
-.banner-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.35); cursor: pointer; transition: background 0.15s, width 0.15s; }
-.banner-dot.active { background: var(--orange); width: 14px; border-radius: 3px; }
-
 /* ── HERO ── */
 .hero {
   max-width: 1200px; margin: 0 auto;
@@ -1190,16 +1167,6 @@ footer {
 <!-- SHARE TOAST -->
 <div class="share-toast" id="share-toast">Link copied to clipboard</div>
 
-<!-- BANNER -->
-<section class="banner-section" id="banner-section">
-  <div class="banner-viewport" id="banner-viewport">
-    <div class="banner-track" id="banner-track"></div>
-    <button class="banner-nav prev" id="banner-prev" aria-label="Previous">&#8249;</button>
-    <button class="banner-nav next" id="banner-next" aria-label="Next">&#8250;</button>
-    <div class="banner-dots" id="banner-dots"></div>
-  </div>
-</section>
-
 <!-- HERO -->
 <section class="hero">
   <div class="hero-left">
@@ -1529,83 +1496,7 @@ function toggleLike(date, btn) {
   btn.classList.toggle('liked', liked);
 }
 
-/* ── BANNER CAROUSEL (image banners on CDN only; hidden when none exist) ── */
-const BANNER_BASE = 'https://cdn.emtypyie.in/assets/banner';
-const BANNER_MAX  = 8;
-
-function probeImage(url) {
-  return new Promise(resolve => {
-    const img = new Image();
-    img.onload = () => resolve(url);
-    img.onerror = () => resolve(null);
-    img.src = url;
-  });
-}
-
-async function loadBanners() {
-  const results = [];
-  for (let i = 1; i <= BANNER_MAX; i++) {
-    for (const ext of ['.webp', '.jpg']) {
-      const url = `${BANNER_BASE}${i}${ext}`;
-      try {
-        const ok = await probeImage(url);
-        if (ok) { results.push({ i, url: ok }); break; }
-      } catch {}
-    }
-  }
-
-  const bannerSlides = results.sort((a, b) => a.i - b.i).map(r =>
-    `<div class="banner-slide"><img src="${r.url}" alt="Banner" loading="lazy"></div>`
-  );
-
-  if (!bannerSlides.length) return;
-
-  const section = document.getElementById('banner-section');
-  const track = document.getElementById('banner-track');
-  const dots = document.getElementById('banner-dots');
-
-  track.innerHTML = bannerSlides.join('');
-  dots.innerHTML = bannerSlides.map((_, i) =>
-    `<span class="banner-dot${i === 0 ? ' active' : ''}" data-index="${i}"></span>`
-  ).join('');
-  section.style.display = 'block';
-
-  let current = 0;
-  const total = bannerSlides.length;
-
-  function goTo(idx) {
-    current = (idx + total) % total;
-    track.style.transform = `translateX(-${current * 100}%)`;
-    dots.querySelectorAll('.banner-dot').forEach((d, i) => d.classList.toggle('active', i === current));
-  }
-
-  document.getElementById('banner-prev').addEventListener('click', () => goTo(current - 1));
-  document.getElementById('banner-next').addEventListener('click', () => goTo(current + 1));
-  dots.querySelectorAll('.banner-dot').forEach(d =>
-    d.addEventListener('click', () => goTo(parseInt(d.dataset.index, 10)))
-  );
-
-  if (total > 1) {
-    let autoplay = setInterval(() => goTo(current + 1), 5000);
-    const viewport = document.getElementById('banner-viewport');
-    viewport.addEventListener('mouseenter', () => clearInterval(autoplay));
-    viewport.addEventListener('mouseleave', () => { autoplay = setInterval(() => goTo(current + 1), 5000); });
-
-    let touchStartX = 0;
-    viewport.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-    viewport.addEventListener('touchend', e => {
-      const dx = e.changedTouches[0].clientX - touchStartX;
-      if (Math.abs(dx) > 40) goTo(current + (dx < 0 ? 1 : -1));
-    }, { passive: true });
-  } else {
-    document.getElementById('banner-prev').style.display = 'none';
-    document.getElementById('banner-next').style.display = 'none';
-    dots.style.display = 'none';
-  }
-}
-loadBanners();
-
-/* ── TICKER BAR (small rectangle box above quotes, driven by banner.json) ── */
+/* ── TICKER BAR (banner box before quotes, driven by banner.json) ── */
 const TICKER_INTERVAL = 5000;
 
 async function loadTicker() {
