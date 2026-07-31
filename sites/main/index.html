@@ -1495,9 +1495,8 @@ function toggleLike(date, btn) {
   btn.classList.toggle('liked', liked);
 }
 
-/* ── BANNER CAROUSEL ── */
+/* ── BANNER CAROUSEL (driven by banner.json, autoplay repetition) ── */
 const BANNER_BASE = 'https://cdn.emtypyie.in/assets/banner';
-const BANNER_EXTS = ['.jpg', '.jpeg', '.png', '.webp'];
 const BANNER_MAX  = 8;
 
 function probeImage(url) {
@@ -1509,7 +1508,19 @@ function probeImage(url) {
   });
 }
 
-async function loadBanners() {
+async function loadBannerSlides() {
+  try {
+    const r = await fetch('/banner.json');
+    if (!r.ok) throw new Error();
+    const data = await r.json();
+    if (Array.isArray(data.banners) && data.banners.length) {
+      return data.banners.map((b, i) => ({
+        url: b.image || b.url || '',
+        alt: b.alt || `Banner ${i + 1}`,
+        link: b.link || null
+      })).filter(b => b.url);
+    }
+  } catch {}
   const results = [];
   for (let i = 1; i <= BANNER_MAX; i++) {
     for (const ext of ['.webp', '.jpg']) {
@@ -1520,44 +1531,51 @@ async function loadBanners() {
       } catch {}
     }
   }
-  
-  const bannerSlides = results.sort((a, b) => a.i - b.i).map(r => 
-    `<div class="banner-slide"><img src="${r.url}" alt="Banner" loading="lazy"></div>`
-  );
-  
-  if (!bannerSlides.length) return;
-  
+  return results.sort((a, b) => a.i - b.i).map(r => ({ url: r.url, alt: 'Banner' }));
+}
+
+async function loadBanners() {
+  const slides = await loadBannerSlides();
+  if (!slides.length) return;
+
+  const bannerSlides = slides.map(b => {
+    const img = `<img src="${b.url}" alt="${b.alt}" loading="lazy">`;
+    return b.link
+      ? `<div class="banner-slide"><a href="${b.link}" target="_blank" rel="noopener">${img}</a></div>`
+      : `<div class="banner-slide">${img}</div>`;
+  });
+
   const section = document.getElementById('banner-section');
   const track = document.getElementById('banner-track');
   const dots = document.getElementById('banner-dots');
-  
+
   track.innerHTML = bannerSlides.join('');
   dots.innerHTML = bannerSlides.map((_, i) =>
     `<span class="banner-dot${i === 0 ? ' active' : ''}" data-index="${i}"></span>`
   ).join('');
   section.style.display = 'block';
-  
+
   let current = 0;
   const total = bannerSlides.length;
-  
+
   function goTo(idx) {
     current = (idx + total) % total;
     track.style.transform = `translateX(-${current * 100}%)`;
     dots.querySelectorAll('.banner-dot').forEach((d, i) => d.classList.toggle('active', i === current));
   }
-  
+
   document.getElementById('banner-prev').addEventListener('click', () => goTo(current - 1));
   document.getElementById('banner-next').addEventListener('click', () => goTo(current + 1));
   dots.querySelectorAll('.banner-dot').forEach(d =>
     d.addEventListener('click', () => goTo(parseInt(d.dataset.index, 10)))
   );
-  
+
   if (total > 1) {
     let autoplay = setInterval(() => goTo(current + 1), 5000);
     const viewport = document.getElementById('banner-viewport');
     viewport.addEventListener('mouseenter', () => clearInterval(autoplay));
     viewport.addEventListener('mouseleave', () => { autoplay = setInterval(() => goTo(current + 1), 5000); });
-    
+
     let touchStartX = 0;
     viewport.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
     viewport.addEventListener('touchend', e => {
@@ -1572,7 +1590,7 @@ async function loadBanners() {
 }
 loadBanners();
 
-/* ── MANIFESTO QUOTES (rotating, driven by banner.json) ── */
+/* ── MANIFESTO QUOTES (rotating, driven by quotes.json) ── */
 const QUOTE_INTERVAL = 8000;
 
 async function loadQuotes() {
@@ -1582,7 +1600,7 @@ async function loadQuotes() {
 
   let quotes;
   try {
-    const r = await fetch('/banner.json');
+    const r = await fetch('/quotes.json');
     if (!r.ok) throw new Error();
     quotes = (await r.json()).quotes || [];
   } catch {
