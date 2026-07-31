@@ -239,18 +239,24 @@ nav {
   display: flex; justify-content: center;
 }
 .ticker-bar {
-  font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.04em;
-  color: var(--ink2);
+  display: inline-flex; align-items: center;
   background: var(--bg3);
   border: 1px solid var(--rule);
   border-radius: 6px;
-  padding: 0.4rem 1.1rem;
-  text-align: center;
-  white-space: nowrap;
+  padding: 0.2rem;
+  line-height: 0;
   max-width: 100%;
   overflow: hidden;
-  text-overflow: ellipsis;
   transition: opacity 0.3s ease;
+}
+.ticker-bar a { display: block; line-height: 0; }
+.ticker-bar img {
+  display: block;
+  height: 38px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 4px;
 }
 
 /* ── MANIFESTO ── */
@@ -1626,7 +1632,10 @@ async function loadTicker() {
     const b = banners[i % banners.length];
     bar.style.opacity = '0';
     setTimeout(() => {
-      bar.textContent = b.text;
+      const img = `<img src="${b.image}" alt="${b.alt || 'banner'}" onerror="this.closest('.ticker-bar').style.display='none'">`;
+      bar.innerHTML = b.link
+        ? `<a href="${b.link}" target="_blank" rel="noopener">${img}</a>`
+        : img;
       bar.style.opacity = '1';
     }, 300);
   };
