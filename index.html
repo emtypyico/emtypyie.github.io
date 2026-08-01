@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EMTYPYIE — Portfolio</title>
+<meta name="description" content="Portfolio of EMTYPYIE — student portfolio site." />
+<link rel="canonical" href="https://emtypyie.in" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Space+Mono:wght@400;700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #2b241c;
+    --paper: #f8efd9;
+    --paper-dim: #f0e3c3;
+    --card: #fffcf2;
+    --line: #e0cf9f;
+    --accent: #b9793f;
+    --muted: #8a7c5e;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.65;
+    position: relative;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    background-image:
+      linear-gradient(rgba(43,36,28,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(43,36,28,0.03) 1px, transparent 1px);
+    background-size: 34px 34px;
+    z-index: 0;
+  }
+
+  .mono { font-family: 'Space Mono', monospace; }
+
+  a { color: inherit; }
+
+  header.site-nav, main, footer { position: relative; z-index: 1; }
+
+  /* ---------- Layout ---------- */
+  .frame {
+    max-width: 920px;
+    margin: 20px auto;
+    border: 1.5px solid var(--ink);
+    background: var(--card);
+    box-shadow: 6px 6px 0 var(--accent);
+  }
+
+  header.site-nav {
+    border-bottom: 1.5px solid var(--ink);
+    padding: 22px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  header.site-nav .mark {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+  }
+
+  header.site-nav .mark span { color: var(--accent); }
+
+  header.site-nav nav {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+
+  header.site-nav nav a {
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 0.2s ease;
+  }
+
+  header.site-nav nav a:hover { color: var(--accent); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 64px 40px 56px;
+    border-bottom: 1.5px solid var(--ink);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .hero .index-tag {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    padding-top: 6px;
+    border-right: 1px dashed var(--line);
+    padding-right: 16px;
+  }
+
+  .hero .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    padding: 5px 12px;
+    border: 1px solid var(--accent);
+  }
+
+  .hero .badge::before { content: "●"; font-size: 0.55rem; }
+
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(2.8rem, 6.5vw, 4.2rem);
+    line-height: 0.92;
+    margin: 0;
+  }
+
+  .hero p.tagline {
+    margin-top: 24px;
+    max-width: 48ch;
+    color: var(--muted);
+    font-size: 1.02rem;
+  }
+
+  .hero .cta-row {
+    margin-top: 32px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 11px 20px;
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    border: 1.5px solid var(--ink);
+    transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  }
+
+  .btn.primary { background: var(--ink); color: var(--paper); }
+  .btn.primary:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+  .btn.ghost:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
+
+  /* ---------- Sections ---------- */
+  section {
+    padding: 52px 40px;
+    border-bottom: 1.5px solid var(--ink);
+  }
+
+  section:last-of-type { border-bottom: none; }
+  section[hidden] { display: none; }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+
+  .section-head .num {
+    font-size: 0.78rem;
+    color: var(--accent);
+    border: 1px solid var(--line);
+    padding: 2px 8px;
+  }
+
+  .section-head h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
+  /* About */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .about-grid p { color: var(--ink); max-width: 64ch; }
+
+  .about-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 0;
+    border: 1px solid var(--line);
+  }
+
+  .about-facts div {
+    padding: 16px 18px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .about-facts div:nth-child(2n) { border-right: none; }
+  .about-facts div:nth-last-child(-n+2) { border-bottom: none; }
+
+  .about-facts .label {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .about-facts .value { margin-top: 5px; font-size: 0.92rem; }
+
+  /* Education / Work items */
+  .entry-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 20px;
+    padding: 20px 16px;
+    margin: 0 -16px;
+    border-top: 1px dashed var(--line);
+    transition: background 0.2s ease;
+  }
+
+  .entry-item:first-of-type { border-top: none; }
+  .entry-item:hover { background: var(--paper-dim); }
+
+  .entry-item .years { font-size: 0.8rem; color: var(--accent); padding-top: 2px; }
+
+  .entry-item h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.08rem;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .entry-item .subtitle { color: var(--muted); font-size: 0.88rem; margin-top: 3px; }
+
+  .entry-item .desc {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    max-width: 52ch;
+  }
+
+  /* Skills */
+  .skills-list { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  .skills-list span {
+    padding: 7px 14px;
+    border: 1px solid var(--line);
+    font-size: 0.82rem;
+    background: var(--paper-dim);
+    transition: border-color 0.2s ease, transform 0.15s ease;
+  }
+
+  .skills-list span:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* Elsewhere callout (projects/wiki link) */
+  .elsewhere {
+    border: 1.5px dashed var(--accent);
+    padding: 28px 26px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 20px;
+    background: repeating-linear-gradient(
+      -45deg,
+      rgba(185,121,63,0.05),
+      rgba(185,121,63,0.05) 8px,
+      transparent 8px,
+      transparent 16px
+    );
+  }
+
+  .elsewhere .eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .elsewhere h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    margin: 0;
+  }
+
+  .elsewhere p {
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+    max-width: 46ch;
+  }
+
+  .elsewhere .go {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+
+  .elsewhere .go:hover { background: var(--accent); transform: translateY(-2px); }
+
+  /* Contact */
+  .contact-row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .contact-row a {
+    text-decoration: none;
+    font-size: 0.85rem;
+    border: 1px solid var(--line);
+    padding: 9px 16px;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .contact-row a:hover { border-color: var(--accent); color: var(--accent); }
+
+  footer {
+    padding: 26px 40px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+  }
+
+  @media (max-width: 640px) {
+    .frame { margin: 12px; box-shadow: 4px 4px 0 var(--accent); }
+    header.site-nav, .hero, section, footer { padding-left: 22px; padding-right: 22px; }
+    .hero { grid-template-columns: 1fr; }
+    .hero .index-tag { display: none; }
+    .entry-item { grid-template-columns: 1fr; gap: 4px; }
+    .about-facts { grid-template-columns: 1fr; }
+    .about-facts div:nth-child(2n) { border-right: 1px solid var(--line); }
+    .elsewhere { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="frame">
+
+  <header class="site-nav">
+    <div class="mark">EMTYPYIE<span>.</span></div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#education">Education</a>
+      <a href="#work" id="nav-work" hidden>Work</a>
+      <a href="#skills">Skills</a>
+      <a href="#elsewhere">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <div class="hero">
+      <div class="index-tag mono">FILE — 01 / PORTFOLIO</div>
+      <div>
+        <div class="badge" id="hero-badge">Loading…</div>
+        <h1 id="hero-name">EMTYPYIE</h1>
+        <p class="tagline" id="hero-tagline">Loading…</p>
+        <div class="cta-row">
+          <a href="#elsewhere" class="btn primary">See My Work →</a>
+          <a href="#contact" class="btn ghost">Get in Touch</a>
+        </div>
+      </div>
+    </div>
+
+    <section id="about">
+      <div class="section-head">
+        <span class="num mono">01</span>
+        <h2>About Me</h2>
+      </div>
+      <div class="about-grid">
+        <p id="about-paragraph">Loading…</p>
+        <div class="about-facts" id="about-facts"></div>
+      </div>
+    </section>
+
+    <section id="education">
+      <div class="section-head">
+        <span class="num mono">02</span>
+        <h2>Education</h2>
+      </div>
+      <div id="education-list"></div>
+    </section>
+
+    <section id="work" hidden>
+      <div class="section-head">
+        <span class="num mono">03</span>
+        <h2>Work</h2>
+      </div>
+      <div id="work-list"></div>
+    </section>
+
+    <section id="skills">
+      <div class="section-head">
+        <span class="num mono" id="skills-num">03</span>
+        <h2>Skills</h2>
+      </div>
+      <div class="skills-list" id="skills-list"></div>
+    </section>
+
+    <section id="elsewhere">
+      <div class="section-head">
+        <span class="num mono" id="elsewhere-num">04</span>
+        <h2>Projects</h2>
+      </div>
+      <div class="elsewhere">
+        <div>
+          <div class="eyebrow">Hosted separately</div>
+          <h3>wiki.emtypyie.in</h3>
+          <p>All my project write-ups, notes, and build logs live on my wiki. Head over there for the full archive.</p>
+        </div>
+        <a class="go" href="https://wiki.emtypyie.in" target="_blank" rel="noopener">Visit Wiki →</a>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="section-head">
+        <span class="num mono" id="contact-num">05</span>
+        <h2>Contact</h2>
+      </div>
+      <p style="color: var(--muted); max-width: 50ch; margin: 0 0 20px;">
+        Placeholder contact intro — invite visitors to reach out via email or social links below.
+      </p>
+      <div class="contact-row" id="contact-links"></div>
+    </section>
+
+  </main>
+
+  <footer>© 2026 EMTYPYIE. FILE 01 / PORTFOLIO — END.</footer>
+
+</div>
+
+<script>
+  async function loadJSON(path) {
+    try {
+      const res = await fetch(path);
+      if (!res.ok) throw new Error('Failed to load ' + path);
+      return await res.json();
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
+
+  function renderEntryList(container, items, subtitleKey) {
+    container.innerHTML = items.map(item => `
+      <div class="entry-item">
+        <div class="years mono">${item.years || ''}</div>
+        <div>
+          <h3>${item.degree || item.role || ''}</h3>
+          <div class="subtitle">${item[subtitleKey] || ''}</div>
+          <div class="desc">${item.desc || ''}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  async function init() {
+    // About Me
+    const about = await loadJSON('data/aboutme.json');
+    if (about) {
+      document.getElementById('hero-badge').textContent = about.badge || '';
+      document.getElementById('hero-name').textContent = about.name || 'EMTYPYIE';
+      document.getElementById('hero-tagline').textContent = about.tagline || '';
+      document.getElementById('about-paragraph').textContent = about.paragraph || '';
+      const factsEl = document.getElementById('about-facts');
+      factsEl.innerHTML = (about.facts || []).map(f => `
+        <div>
+          <div class="label mono">${f.label}</div>
+          <div class="value">${f.value}</div>
+        </div>
+      `).join('');
+    }
+
+    // Education
+    const edu = await loadJSON('data/edu.json');
+    if (edu) renderEntryList(document.getElementById('education-list'), edu, 'school');
+
+    // Work (only shown if entries exist)
+    const work = await loadJSON('data/work.json');
+    if (work && work.length > 0) {
+      renderEntryList(document.getElementById('work-list'), work, 'company');
+      document.getElementById('work').hidden = false;
+      document.getElementById('nav-work').hidden = false;
+    }
+
+    // Skills
+    const skills = await loadJSON('data/skills.json');
+    if (skills) {
+      document.getElementById('skills-list').innerHTML =
+        skills.map(s => `<span>${s}</span>`).join('');
+    }
+
+    // Social links
+    const links = await loadJSON('data/sociallinks.json');
+    if (links) {
+      document.getElementById('contact-links').innerHTML =
+        links.map(l => `<a href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`).join('');
+    }
+
+    // Renumber section indices if Work section is now visible
+    if (!document.getElementById('work').hidden) {
+      document.getElementById('skills-num').textContent = '04';
+      document.getElementById('elsewhere-num').textContent = '05';
+      document.getElementById('contact-num').textContent = '06';
+    }
+  }
+
+  init();
+</script>
+
+</body>
+</html>
