@@ -1072,6 +1072,7 @@ footer {
 .nav-mobile-menu a:last-child { border-bottom: none; }
   .nav-mobile-menu a:hover { color: var(--orange); }
 
+/* ── HERO BACKGROUND "POP OUT" EFFECT ── */
 .hero-bg-fineshit {
   position: fixed;
   inset: 0;
@@ -1082,6 +1083,27 @@ footer {
   z-index: -1;
   pointer-events: none;
   display: block;
+  transform-origin: center center;
+  transform: perspective(1400px) rotateX(0deg) rotateY(0deg) scale(1.04) translateZ(0);
+  animation: hero-pop-in 1.5s cubic-bezier(.16,.84,.24,1) both;
+  will-change: transform, filter;
+}
+
+@keyframes hero-pop-in {
+  0% {
+    transform: perspective(1400px) rotateX(0deg) rotateY(0deg) scale(1.5) translateZ(220px);
+    opacity: 0;
+    filter: brightness(1.15) blur(3px);
+  }
+  55% {
+    opacity: 1;
+    filter: brightness(1.05) blur(0.5px);
+  }
+  100% {
+    transform: perspective(1400px) rotateX(0deg) rotateY(0deg) scale(1.04) translateZ(30px);
+    opacity: 1;
+    filter: brightness(1) blur(0px);
+  }
 }
 
 @media (max-width: 768px) {
@@ -1647,6 +1669,36 @@ async function loadBlogPreview() {
   });
 }
 loadBlogPreview();
+
+/* ── HERO BACKGROUND "POP OUT" PARALLAX ── */
+(() => {
+  const bg = document.querySelector('.hero-bg-fineshit');
+  if (!bg || window.matchMedia('(pointer: coarse)').matches) return; // skip on touch devices
+
+  const MAX_TILT = 5; // degrees, keep this subtle
+  let targetX = 0, targetY = 0, curX = 0, curY = 0;
+  let rafId = null;
+
+  window.addEventListener('mousemove', (e) => {
+    const nx = (e.clientX / window.innerWidth) - 0.5;
+    const ny = (e.clientY / window.innerHeight) - 0.5;
+    targetX = ny * MAX_TILT * -1;
+    targetY = nx * MAX_TILT;
+  });
+
+  function animate() {
+    curX += (targetX - curX) * 0.05;
+    curY += (targetY - curY) * 0.05;
+    bg.style.transform =
+      `perspective(1400px) rotateX(${curX}deg) rotateY(${curY}deg) scale(1.04) translateZ(30px)`;
+    rafId = requestAnimationFrame(animate);
+  }
+
+  // wait for the CSS entrance animation to finish before handing control to JS
+  bg.addEventListener('animationend', () => {
+    if (!rafId) animate();
+  }, { once: true });
+})();
 
 /* ── SUPPORT ── */
 const UPI_ID = 'workforemty@oksbi';
