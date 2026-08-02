@@ -256,16 +256,34 @@
   main.content .h1-tag::before{ content:'// '; color: var(--bar-blue); }
 
   main.content h2{
-    font-size: 22px; font-weight:700;
-    margin: 44px 0 14px;
+    font-size: 20px; font-weight:700;
+    margin: 52px 0 4px;
     padding-top: 6px;
     scroll-margin-top: 80px;
-    display:flex; align-items:baseline; gap:10px;
+    display:flex; align-items:center; gap:10px;
   }
+  main.content h2 .h2-icon{
+    width:28px; height:28px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:7px;
+    background: var(--sidebar-active-bg);
+    color: var(--bar-blue);
+  }
+  main.content h2 .h2-icon svg{ width:15px; height:15px; }
+  #research + .section-sub .h2-icon,
+  h2#research .h2-icon{ background: var(--st-purple-bg); color: var(--st-purple); }
   main.content h2 .h2-count{
     font-family: var(--font-mono);
-    font-size: 12px; font-weight:400;
+    font-size: 11px; font-weight:600;
     color: var(--text-faint);
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+  main.content h2 .fetch-status{ margin-left:auto; }
+  .section-sub{
+    font-size: 13.5px; color: var(--text-faint); margin: 0 0 18px 38px; max-width:640px;
   }
   main.content p{ margin: 0 0 16px; color: var(--text); max-width: 720px; }
 
@@ -294,98 +312,74 @@
   /* project / research grid */
   .project-grid{
     display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(258px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
     min-height: 100px;
     margin-bottom: 6px;
   }
   .project-card{
-    background: var(--code-bg);
+    background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 18px 20px 16px;
-    padding-left: 22px;
+    padding: 18px 20px;
     cursor:pointer;
-    display:flex; flex-direction:column; gap:9px;
-    min-height: 156px;
+    display:flex; flex-direction:column; gap:10px;
+    min-height: 148px;
     position:relative;
     color: var(--text);
-    overflow:hidden;
-    transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease;
+    transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
   }
-  .project-card::before{
-    /* status accent rail */
-    content:'';
-    position:absolute; left:0; top:0; bottom:0; width:4px;
-    background: var(--st-slate);
-    opacity:.55;
-    transition: opacity .16s ease, width .16s ease;
-  }
-  .project-card[data-status="active"]::before{ background: var(--st-green); }
-  .project-card[data-status="paused"]::before{ background: var(--st-amber); }
-  .project-card[data-status="completed"]::before{ background: var(--st-slate); }
-  .project-card[data-status="planning"]::before{ background: var(--st-purple); }
-  .project-card[data-status="draft"]::before{ background: var(--st-slate); }
-  .project-card[data-status="published"]::before{ background: var(--st-green); }
-
   .project-card:hover{
-    background: var(--bg);
     border-color: var(--bar-blue);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 24px rgba(0,0,0,.14);
+    background: var(--code-bg);
+    box-shadow: 0 4px 14px rgba(20,30,60,.08);
     text-decoration:none;
   }
-  html[data-theme="dark"] .project-card:hover{ box-shadow: 0 10px 24px rgba(0,0,0,.45); }
+  html[data-theme="dark"] .project-card:hover{ box-shadow: 0 4px 14px rgba(0,0,0,.35); }
   .research-card:hover{ border-color: var(--st-purple); }
-  .project-card:hover::before{ opacity:1; width:5px; }
-
-  .project-card::after{
-    content:'→';
-    position:absolute; top:16px; right:18px;
-    width:22px; height:22px;
-    display:flex; align-items:center; justify-content:center;
-    border-radius:50%;
-    background: var(--sidebar-active-bg);
-    font-size:13px; color: var(--bar-blue);
-    opacity:0; transform: translateX(-4px);
-    transition: opacity .15s ease, transform .15s ease;
-  }
-  .project-card:hover::after{ opacity:1; transform: translateX(0); }
-  .research-card::after{ color: var(--st-purple); background: var(--st-purple-bg); }
   .project-card[data-hidden="true"]{ display:none; }
 
-  .card-name{ font-weight:700; font-size:16px; color: var(--text); padding-right:26px; line-height:1.32; }
-  .card-lang{
-    display:inline-flex; align-self:flex-start;
-    font-family: var(--font-mono); font-size:10px;
-    color: var(--bar-blue); background: var(--sidebar-active-bg);
-    padding: 2px 8px; border-radius: 20px; letter-spacing:.02em;
+  .card-top{ display:flex; align-items:center; gap:8px; }
+  .card-top svg{ width:15px; height:15px; color: var(--text-faint); flex-shrink:0; }
+  .research-card .card-top svg{ color: var(--st-purple); }
+  .card-name{ font-weight:600; font-size:15.5px; color: var(--link); line-height:1.3; }
+  .project-card:hover .card-name{ text-decoration: underline; }
+  .card-arrow{
+    margin-left:auto; flex-shrink:0;
+    color: var(--text-faint); font-size:13px;
+    opacity:0; transform: translateX(-4px);
+    transition: opacity .15s ease, transform .15s ease, color .15s ease;
   }
-  .research-card .card-lang{ color: var(--st-purple); background: var(--st-purple-bg); }
-  .card-desc{ font-size:13px; color: var(--text-muted); line-height:1.55; flex:1; }
-  .card-footer{
-    display:flex; align-items:center; justify-content:space-between;
-    margin-top:auto; padding-top:11px; border-top: 1px dashed var(--border);
+  .project-card:hover .card-arrow{ opacity:1; transform: translateX(0); color: var(--bar-blue); }
+  .research-card:hover .card-arrow{ color: var(--st-purple); }
+
+  .card-desc{
+    font-size:13px; color: var(--text-muted); line-height:1.55; flex:1;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow:hidden;
   }
-  .badge{
-    display:inline-flex; align-items:center; gap:5px;
-    font-family: var(--font-mono); font-size:10px;
-    letter-spacing:.05em; text-transform:uppercase;
-    padding:3px 8px 3px 6px; border-radius: 20px; font-weight:700;
+  .card-meta{
+    display:flex; align-items:center; flex-wrap:wrap; gap:14px;
+    margin-top:auto; padding-top:2px;
+    font-family: var(--font-mono); font-size:11.5px; color: var(--text-faint);
   }
-  .badge::before{ content:''; width:6px; height:6px; border-radius:50%; background: currentColor; flex-shrink:0; }
-  .badge-active{ color: var(--st-green); background: var(--st-green-bg); }
-  .badge-paused{ color: var(--st-amber); background: var(--st-amber-bg); }
-  .badge-completed{ color: var(--st-slate); background: var(--st-slate-bg); }
-  .badge-planning{ color: var(--st-purple); background: var(--st-purple-bg); }
-  .badge-draft{ color: var(--st-slate); background: var(--st-slate-bg); }
-  .badge-published{ color: var(--st-green); background: var(--st-green-bg); }
-  .card-date{ font-family: var(--font-mono); font-size:10.5px; color: var(--text-faint); }
+  .meta-item{ display:inline-flex; align-items:center; gap:6px; }
+  .meta-dot{ width:8px; height:8px; border-radius:50%; flex-shrink:0; background: var(--text-faint); }
+  .meta-dot.lang{ background: var(--bar-blue); }
+  .research-card .meta-dot.lang{ background: var(--st-purple); }
+  .meta-dot.status-active{ background: var(--st-green); }
+  .meta-dot.status-paused{ background: var(--st-amber); }
+  .meta-dot.status-completed{ background: var(--st-slate); }
+  .meta-dot.status-planning{ background: var(--st-purple); }
+  .meta-dot.status-draft{ background: var(--st-slate); }
+  .meta-dot.status-published{ background: var(--st-green); }
 
   .grid-state{
     grid-column: 1/-1;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
-    padding: 40px 24px; gap:10px; background: var(--bg);
+    padding: 44px 24px; gap:12px;
+    background: var(--code-bg);
+    border: 1.5px dashed var(--border);
+    border-radius: 12px;
   }
   .grid-state-label{ font-family: var(--font-mono); font-size:12px; color: var(--text-faint); }
   .grid-state-sub{ font-family: var(--font-mono); font-size:10px; color: var(--text-faint); opacity:.7; }
@@ -400,6 +394,7 @@
   .fetch-status{ font-family: var(--font-mono); font-size: 11px; }
   .fetch-status.ok{ color: var(--st-green); }
   .fetch-status.err{ color: #cf222e; }
+  .fetch-status.fallback{ color: var(--st-amber); }
   html[data-theme="dark"] .fetch-status.err{ color:#ff7b72; }
 
   @media (max-width: 1100px){ /* no right panel to hide here anymore */ }
@@ -510,6 +505,25 @@
     #transName{ font-size: 11px; bottom:5vh; right:2vw; width:38vw; }
     #transLabel{ right:2vw; width:38vw; bottom: calc(5vh + 30px); }
     #transLangTag{ right:2vw; width:38vw; bottom: calc(5vh + 46px); }
+
+    /* on phones the arrows sweep bottom → up instead of side to side */
+    .trans-arrow{
+      top:auto; left:-5%; right:auto;
+      width:110%; height:24%;
+      clip-path: polygon(0% 100%, 0% 35%, 50% 0%, 100% 35%, 100% 100%, 50% 65%);
+    }
+    #ta1{ bottom:0%; }
+    #ta2{ bottom:26%; }
+    #ta3{ bottom:52%; }
+    #ta1{ transform: translateY(160%); }
+    #ta2{ transform: translateY(160%); }
+    #ta3{ transform: translateY(160%); }
+    #ta1.arrow-in{ transform: translateY(0); transition: transform .40s cubic-bezier(.77,0,.175,1) 0s; }
+    #ta2.arrow-in{ transform: translateY(0); transition: transform .40s cubic-bezier(.77,0,.175,1) .10s; }
+    #ta3.arrow-in{ transform: translateY(0); transition: transform .40s cubic-bezier(.77,0,.175,1) .20s; }
+    #ta1.arrow-out{ transform: translateY(-160%); transition: transform .48s cubic-bezier(.77,0,.175,1) 0s; }
+    #ta2.arrow-out{ transform: translateY(-160%); transition: transform .48s cubic-bezier(.77,0,.175,1) .06s; }
+    #ta3.arrow-out{ transform: translateY(-160%); transition: transform .48s cubic-bezier(.77,0,.175,1) .12s; }
   }
 </style>
 </head>
@@ -587,7 +601,15 @@
       time without loss of context.
     </p>
 
-    <h2 id="projects">Projects <span class="h2-count" id="projectCount">—</span> <span class="fetch-status" id="fetchStatus"></span></h2>
+    <h2 id="projects">
+      <span class="h2-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      </span>
+      Projects
+      <span class="h2-count" id="projectCount">—</span>
+      <span class="fetch-status" id="fetchStatus"></span>
+    </h2>
+    <p class="section-sub">Live-loaded from <code>devlogs/manifest.json</code> — what I'm building, on pause, or shipped.</p>
     <div class="filter-row" id="filterRow" style="display:none;">
       <button class="filter-pill active" data-filter="all">All</button>
       <button class="filter-pill" data-filter="active">Active</button>
@@ -601,8 +623,15 @@
       </div>
     </div>
 
-    <h2 id="research">Technical Research <span class="h2-count" id="researchCount">—</span> <span class="fetch-status" id="researchStatus"></span></h2>
-    <p style="margin-bottom:16px;"><code>research/manifest.json</code> — write-ups and blogs on things I've been digging into.</p>
+    <h2 id="research">
+      <span class="h2-icon" style="background:var(--st-purple-bg); color:var(--st-purple);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      </span>
+      Technical Research
+      <span class="h2-count" id="researchCount">—</span>
+      <span class="fetch-status" id="researchStatus"></span>
+    </h2>
+    <p class="section-sub">Live-loaded from <code>research/manifest.json</code> — write-ups and blogs on things I've been digging into.</p>
     <div class="filter-row" id="researchFilterRow" style="display:none;">
       <button class="filter-pill research-pill active" data-rfilter="all">All</button>
       <button class="filter-pill research-pill" data-rfilter="planning">Planning</button>
@@ -808,10 +837,6 @@
   }
 
   /* ── SHARED CARD BUILDER ── */
-  const STATUS_MAP = {
-    active: 'badge-active', paused: 'badge-paused', completed: 'badge-completed',
-    planning: 'badge-planning', draft: 'badge-draft', published: 'badge-published',
-  };
   function buildCard({ id, name, nameHi, desc, status, updated, lang }, basePath, extraClass){
     const a = document.createElement('a');
     a.className = 'project-card' + (extraClass ? ' ' + extraClass : '');
@@ -819,15 +844,24 @@
     a.dataset.status = (status || 'paused').toLowerCase();
     a.dataset.nameHi = nameHi || '';
     a.tabIndex = 0;
-    const cls = STATUS_MAP[a.dataset.status] || 'badge-paused';
-    const lbl = a.dataset.status.charAt(0).toUpperCase() + a.dataset.status.slice(1);
+    const statusCls = 'status-' + a.dataset.status;
+    const statusLbl = a.dataset.status.charAt(0).toUpperCase() + a.dataset.status.slice(1);
+    const isResearch = basePath === 'research';
     a.innerHTML = `
-      <div class="card-name">${name || id}</div>
-      ${lang ? `<div class="card-lang">${lang}</div>` : ''}
+      <div class="card-top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${
+          isResearch
+            ? '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>'
+            : '<path d="M2 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6z"/>'
+        }</svg>
+        <span class="card-name">${name || id}</span>
+        <span class="card-arrow">→</span>
+      </div>
       <div class="card-desc">${desc || ''}</div>
-      <div class="card-footer">
-        <span class="badge ${cls}">${lbl}</span>
-        <span class="card-date">${updated || '—'}</span>
+      <div class="card-meta">
+        ${lang ? `<span class="meta-item"><span class="meta-dot lang"></span>${lang}</span>` : ''}
+        <span class="meta-item"><span class="meta-dot ${statusCls}"></span>${statusLbl}</span>
+        <span class="meta-item">${updated || '—'}</span>
       </div>`;
     a.addEventListener('click', e => { e.preventDefault(); playTransition(name || id, a.dataset.nameHi, a.href); });
     a.addEventListener('keydown', e => {
@@ -871,13 +905,19 @@
       filterRow.style.display = 'flex';
       initFilters();
     }catch(err){
-      loadingEl.innerHTML = `
-        <span style="font-size:18px">⚠</span>
-        <span class="grid-state-label">failed to load manifest.json</span>
-        <span class="grid-state-sub">${err.message}</span>`;
-      countEl.textContent = 'error';
-      statusEl.className = 'fetch-status err';
-      statusEl.textContent = '· unreachable';
+      loadingEl.remove();
+      allProjects = SAMPLE_PROJECTS;
+      const order = { active: 0, paused: 1, completed: 2 };
+      const projects = [...SAMPLE_PROJECTS].sort((a,b) => {
+        const sd = (order[a.status] ?? 9) - (order[b.status] ?? 9);
+        return sd !== 0 ? sd : (b.updated || '').localeCompare(a.updated || '');
+      });
+      projects.forEach(p => { const card = buildCard(p, 'devlogs', ''); grid.appendChild(card); allCards.push(card); });
+      countEl.textContent = `${projects.length}`;
+      statusEl.className = 'fetch-status fallback';
+      statusEl.textContent = '· sample data';
+      filterRow.style.display = 'flex';
+      initFilters();
     }
   }
   function initFilters(){
@@ -932,13 +972,19 @@
       rFilterRow.style.display = 'flex';
       initResearchFilters();
     }catch(err){
-      rLoadingEl.innerHTML = `
-        <span style="font-size:18px">⚠</span>
-        <span class="grid-state-label">failed to load research/manifest.json</span>
-        <span class="grid-state-sub">${err.message}</span>`;
-      rCountEl.textContent = 'error';
-      rStatusEl.className = 'fetch-status err';
-      rStatusEl.textContent = '· unreachable';
+      rLoadingEl.remove();
+      allResearch = SAMPLE_RESEARCH;
+      const order = { planning: 0, draft: 1, published: 2 };
+      const items = [...SAMPLE_RESEARCH].sort((a,b) => {
+        const sd = (order[a.status] ?? 9) - (order[b.status] ?? 9);
+        return sd !== 0 ? sd : (b.updated || '').localeCompare(a.updated || '');
+      });
+      items.forEach(p => { const card = buildCard(p, 'research', 'research-card'); rgrid.appendChild(card); allResearchCards.push(card); });
+      rCountEl.textContent = `${items.length}`;
+      rStatusEl.className = 'fetch-status fallback';
+      rStatusEl.textContent = '· sample data';
+      rFilterRow.style.display = 'flex';
+      initResearchFilters();
     }
   }
   function initResearchFilters(){
