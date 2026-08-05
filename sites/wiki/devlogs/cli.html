@@ -39,6 +39,7 @@
   }
   *,*::before,*::after{ box-sizing:border-box; }
   html,body{ margin:0; padding:0; }
+  html{ overflow-x:hidden; }
   body{
     font-family: var(--font-body);
     color: var(--text);
@@ -46,6 +47,10 @@
     font-size: 15.5px;
     line-height: 1.7;
     transition: background 0.15s, color 0.15s;
+    overflow-x:hidden;
+  }
+  @media (max-width: 780px){
+    body.nav-open{ overflow:hidden; }
   }
   a{ color: var(--link); text-decoration:none; }
   a:hover{ text-decoration: underline; }
@@ -79,6 +84,37 @@
     font-weight:600;
     font-size:16px;
     white-space:nowrap;
+    min-width:0;
+  }
+  .menu-toggle{
+    display:none;
+    align-items:center;
+    justify-content:center;
+    width:38px; height:38px;
+    flex-shrink:0;
+    margin:-4px 0;
+    border-radius:6px;
+    background: rgba(255,255,255,0.12);
+    cursor:pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .menu-toggle svg{ width:18px; height:18px; }
+  .menu-toggle .icon-close{ display:none; }
+  body.nav-open .menu-toggle .icon-menu{ display:none; }
+  body.nav-open .menu-toggle .icon-close{ display:block; }
+
+  .nav-backdrop{
+    display:none;
+    position:fixed;
+    inset: var(--header-h) 0 0 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 250;
+    opacity:0;
+    transition: opacity 0.2s ease;
+  }
+  body.nav-open .nav-backdrop{
+    display:block;
+    opacity:1;
   }
   header.topbar .brand .brand-text,
   header.topbar .brand .brand-text a{
@@ -198,6 +234,8 @@
     border-radius:6px;
     background: rgba(255,255,255,0.12);
     cursor:pointer;
+    flex-shrink:0;
+    -webkit-tap-highlight-color: transparent;
   }
   .theme-toggle svg{ width:16px; height:16px; }
 
@@ -219,6 +257,7 @@
     align-self: flex-start;
     height: calc(100vh - var(--header-h));
     overflow-y:auto;
+    background: var(--bg);
   }
   .side-title{
     font-weight:700;
@@ -266,6 +305,14 @@
     color: var(--text);
     letter-spacing: 0.01em;
   }
+  .build-codename{
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-faint);
+    margin: -18px 0 22px;
+    letter-spacing: .02em;
+  }
+  .build-codename strong{ color: var(--bar-blue); font-weight:700; }
   main.content h2{
     font-size: 22px;
     font-weight:700;
@@ -451,18 +498,63 @@
     .brand span[style]{ display:none; }
   }
   @media (max-width: 780px){
-    aside.sidebar{ display:none; }
-    main.content{ padding: 28px 20px 60px; }
+    .menu-toggle{ display:flex; }
+
+    aside.sidebar{
+      display:block;
+      position: fixed;
+      top: var(--header-h);
+      left:0;
+      width: min(84vw, 300px);
+      height: calc(100vh - var(--header-h));
+      height: calc(100dvh - var(--header-h));
+      z-index: 260;
+      box-shadow: 2px 0 18px rgba(0,0,0,0.25);
+      transform: translateX(-100%);
+      transition: transform 0.22s ease;
+      padding: 18px 18px 32px;
+    }
+    body.nav-open aside.sidebar{ transform: translateX(0); }
+
+    .side-nav a{ padding: 9px 10px; font-size: 14.5px; }
+
+    main.content{ padding: 24px 20px 60px; }
+    main.content h1{ font-size: 20px; }
+    main.content h2{ font-size: 19px; margin: 34px 0 12px; }
+    main.content h3{ font-size: 16px; }
+
     .repo-stats{ display:none; }
     header.topbar{ gap:8px; padding: 0 12px; }
     .search-wrap{ max-width: none; }
+    .searchbox{ padding: 6px 12px; }
     .site-cta{ width:100%; justify-content:center; }
+
+    table{ font-size: 13px; }
+    th,td{ padding: 8px 10px; white-space:normal; }
+    table code{ white-space:nowrap; }
+
+    .contributor-card{ width:100%; margin-right:0; }
   }
   @media (max-width: 480px){
+    body{ font-size: 15px; }
     .repo-chip{ display:none; }
+    header.topbar{ padding: 0 10px; gap:6px; }
     header.topbar .brand{ font-size:14px; }
-    main.content h1{ font-size:18px; }
+    header.topbar .brand .brand-text{ font-size: 10.5px; }
+    .search-wrap{ min-width:0; }
+    main.content{ padding: 20px 16px 50px; }
+    main.content h1{ font-size:17px; }
+    main.content h2{ font-size:18px; }
     .log-entry, .devlog{ padding-left:14px; }
+    .notice{ padding: 12px 14px; font-size:13px; }
+    pre{ padding: 13px 14px; font-size:12.5px; }
+    .footer-links{ gap:12px 18px; font-size:12.5px; }
+  }
+  @media (max-width: 340px){
+    header.topbar .brand .brand-text{ display:none; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    aside.sidebar, .nav-backdrop, *{ transition-duration: 0.001ms !important; }
   }
 
 
@@ -519,6 +611,10 @@
 <body>
 
 <header class="topbar">
+  <button type="button" class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-controls="sidebarNav" aria-expanded="false">
+    <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
   <span class="brand">
     <span class="brand-text"><a href="https://wiki.emtypyie.in" target="_blank" rel="noopener">wiki</a><span style="opacity:.7; font-weight:400;"> / </span><a href="https://wiki.emtypyie.in/devlogs/cli" target="_blank" rel="noopener">emtypyie.cli</a></span>
   </span>
@@ -544,10 +640,12 @@
   </div>
 </header>
 
+<div class="nav-backdrop" id="navBackdrop"></div>
+
 <div class="layout">
 
   <!-- ── LEFT SIDEBAR ── -->
-  <aside class="sidebar">
+  <aside class="sidebar" id="sidebarNav">
     <div class="side-title">Emtypyie.cli Wiki</div>
     <ul class="side-nav">
       <li><a href="#overview" class="active">Overview</a></li>
@@ -577,6 +675,7 @@
   <main class="content">
 
     <h1 id="overview">Emtypyie.cli</h1>
+    <p class="build-codename">Build codename: <strong>Baking Bread</strong></p>
     <a class="site-cta" href="https://emtypyie.in/cli" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       Visit main site — emtypyie.in/cli
@@ -593,17 +692,20 @@
     <p>
       The project has been maintained continuously since its alpha releases. It started
       as a Node.js-only tool distributed through npm; from <strong>v2.5.0 "Wandering
-      Witches"</strong> onward it was rewritten from the ground up in C, and the C build
-      is now the one going forward. See <a href="#history">History</a> below for the full timeline.
+      Witches"</strong> onward it was rewritten from the ground up in C, and the C
+      (Clang) build has led development ever since — most recently with the
+      <strong>v3.0.0 "Baking Bread"</strong> major release. See <a href="#history">History</a>
+      below for the full timeline.
     </p>
 
     <div class="notice">
-      <span class="notice-icon">⚠</span>
+      <span class="notice-icon">ℹ</span>
       <div>
-        <strong>Node.js build is legacy.</strong> It's kept around for compatibility
-        today, but support may be dropped in an upcoming release as the project
-        continues to consolidate around the C build. If you're setting up fresh,
-        prefer the C native install.
+        <strong>Node.js build will keep being maintained.</strong> Earlier notes here
+        said the Node.js build might be dropped — that's no longer the plan. It's been
+        decided to keep maintaining it going forward. New features and updates still
+        land in the C (Clang) build first, so Node.js will typically trail behind on
+        the newest additions, but it isn't going away.
       </div>
     </div>
 
@@ -621,13 +723,28 @@
       </li>
       <li>
         <span class="tl-tag">Since v2.5.0</span>
-        <div class="tl-title">C is the primary path</div>
-        <div class="tl-desc">All new features — Larpino, bakafetch, themes — land in the C build first. The Node.js build is maintained but is not guaranteed long-term.</div>
+        <div class="tl-title">C (Clang) is the primary path</div>
+        <div class="tl-desc">All new features — Larpino, bakafetch, themes — land in the C build first. The Node.js build is actively maintained alongside it, but typically trails on the newest additions.</div>
       </li>
       <li>
-        <span class="tl-tag">Upcoming — v3.0.0</span>
-        <div class="tl-title">Next major update</div>
-        <div class="tl-desc">The next major release. Expected to bring the GUI online alongside the terminal runtime.</div>
+        <span class="tl-tag">v3.0.0 — "Baking Bread" · Major</span>
+        <div class="tl-title">Major release: GUI work begins</div>
+        <div class="tl-desc">Brought the GUI online alongside the terminal runtime for the first time, continuing the C (Clang)-first direction set since v2.5.0.</div>
+      </li>
+      <li>
+        <span class="tl-tag">v3.0.1 · Patch</span>
+        <div class="tl-title">Patch update</div>
+        <div class="tl-desc">Follow-up patch to v3.0.0 "Baking Bread" with fixes and stability improvements.</div>
+      </li>
+      <li>
+        <span class="tl-tag">v3.0.2 · Current</span>
+        <div class="tl-title">v3.0.2 is now on</div>
+        <div class="tl-desc">Latest release. Both the Node.js and C (Clang) builds are up to date on v3.0.2.</div>
+      </li>
+      <li>
+        <span class="tl-tag">Upcoming — v5.0.0+</span>
+        <div class="tl-title">Larpino ships with a bundled default model</div>
+        <div class="tl-desc">The Larpino engine already runs models today via <code>/get larpino@1b</code>, but shipping a model bundled in by default has been pushed out to v5.0.0 and later — there's plenty of runway before that lands, so no firm timeline yet.</div>
       </li>
     </ul>
 
@@ -643,7 +760,7 @@
     </ul>
 
     <h2 id="install">Install &amp; Launch</h2>
-    <p>The C native build is the recommended path — it's what current and future development targets. The Node.js build still works but is legacy; treat it as a fallback, not the default.</p>
+    <p>The C (Clang) build is the recommended path — it's what gets new features first. The Node.js build is a fully supported alternative too, not just a fallback, but expect it to trail on the newest additions.</p>
 
     <h3 id="install-windows">Windows (Winget / Chocolatey) — C native build, recommended</h3>
     <pre><code><span class="tok-cmt"># Winget</span>
@@ -651,10 +768,22 @@ winget install myrachane.emtypyie-cli
 
 <span class="tok-cmt"># Chocolatey</span>
 choco install emtypyie-cli</code></pre>
+    <div class="notice">
+      <span class="notice-icon">⚠</span>
+      <div>
+        <strong>Package manager installs are behind right now.</strong> Winget hasn't
+        been updated past <strong>v2.5.0 "Wandering Witches"</strong> — installing
+        through it will not get you Baking Bread (v3.0.x) or later. The Chocolatey
+        package isn't published yet either, so <code>choco install emtypyie-cli</code>
+        won't currently resolve. Until both catch up, grab the latest build directly
+        from <a href="https://emtypyie.in/cli" target="_blank" rel="noopener">emtypyie.in/cli</a>
+        or use npm below.
+      </div>
+    </div>
 
-    <h3 id="install-npm">npm (all platforms) — Node.js build, legacy</h3>
+    <h3 id="install-npm">npm (all platforms) — Node.js build, maintained</h3>
     <pre><code>npm install -g emtypyie-cli</code></pre>
-    <p>This is the original distribution path from the project's alpha days. It still receives updates, but new features land in the C build first — and support here may end in a future release.</p>
+    <p>This is the original distribution path from the project's alpha days. It's kept up and running today — new features land in the C (Clang) build first, but the Node.js build is not being phased out.</p>
 
     <h3 id="install-launch">Launching the shell</h3>
     <p>Once installed, <code>emtypyie</code> is on your <code>PATH</code>. Run it with no arguments to boot the interactive shell:</p>
@@ -688,18 +817,19 @@ set EMTYPYIE_NO_ANIM=1</code></pre>
     <h2 id="architecture">Architecture</h2>
     <p>
       The C CLI (<code>Root4c</code>) is the primary build going forward — a single
-      portable binary written in C11/C++17 with no runtime dependencies. It's what
-      Larpino and bakafetch are built directly into, and where all new development
-      happens. The Node.js CLI (<code>Root4node</code>) is the original alpha-era
-      codebase, still published to npm, but is now considered legacy.
+      portable binary written in C11/C++17 (Clang toolchain) with no runtime
+      dependencies. It's what Larpino and bakafetch are built directly into, and where
+      all new development lands first. The Node.js CLI (<code>Root4node</code>) is the
+      original alpha-era codebase, still published to npm, and is officially maintained
+      going forward too — it just receives new features after the C build does.
     </p>
     <table>
       <tr><th>Path</th><th>Description</th></tr>
       <tr><td><code>archive/vX.Y.Z/Root4c/</code></td><td>C CLI — portable single binary (primary)</td></tr>
-      <tr><td><code>archive/vX.Y.Z/Root4node/</code></td><td>Node.js CLI — published to npm</td></tr>
+      <tr><td><code>archive/vX.Y.Z/Root4node/</code></td><td>Node.js CLI — published to npm, maintained</td></tr>
       <tr><td><code>mainsite/</code></td><td>Website landing pages</td></tr>
-      <tr><td><code>manifests/</code></td><td>Winget package manifests</td></tr>
-      <tr><td><code>choco/</code></td><td>Chocolatey package</td></tr>
+      <tr><td><code>manifests/</code></td><td>Winget package manifests (currently pinned to v2.5.0 "Wandering Witches")</td></tr>
+      <tr><td><code>choco/</code></td><td>Chocolatey package (not yet published)</td></tr>
     </table>
 
     <h3 id="larpino">Larpino inference engine</h3>
@@ -723,19 +853,42 @@ cmake --build build</code></pre>
     <p>Each GitHub release ships two Windows executables:</p>
     <table>
       <tr><th>ZIP</th><th>Contents</th><th>Source</th></tr>
-      <tr><td><code>emtypyie-cli-windows-x64-2.5.8.zip</code></td><td><code>emtypyie.exe</code></td><td>Node.js (pkg)</td></tr>
-      <tr><td><code>emtypyie-cli-native-windows-x64-2.5.8.zip</code></td><td><code>emtypyie.exe</code></td><td>C native build</td></tr>
+      <tr><td><code>emtypyie-cli-windows-x64-3.0.2.zip</code></td><td><code>emtypyie.exe</code></td><td>Node.js (pkg)</td></tr>
+      <tr><td><code>emtypyie-cli-native-windows-x64-3.0.2.zip</code></td><td><code>emtypyie.exe</code></td><td>C native build</td></tr>
     </table>
 
     <h2 id="devlogs">Dev Logs</h2>
 
     <div class="devlog">
+      <div class="devlog-meta">2026-08-04 · log #7 · <span class="v">v3.0.2</span></div>
+      <h3>v3.0.2 — latest release</h3>
+      <p>v3.0.2 is now on. Both the Node.js and C (Clang) builds are up to date —
+        confirming the plan to keep maintaining Node.js alongside C going forward,
+        even though new features continue to land in C first.</p>
+    </div>
+
+    <div class="devlog">
+      <div class="devlog-meta">2026-07-29 · log #6 · <span class="v">v3.0.1</span></div>
+      <h3>v3.0.1 — patch update</h3>
+      <p>Patch release following <strong>v3.0.0 "Baking Bread"</strong>. Fixes and
+        stability improvements, no new commands or breaking changes.</p>
+    </div>
+
+    <div class="devlog">
+      <div class="devlog-meta">2026-07-24 · log #5 · <span class="v">v3.0.0 — "Baking Bread"</span></div>
+      <h3>Major release: Baking Bread</h3>
+      <p>The next major release after v2.5.0. Brings the GUI online alongside the
+        terminal runtime for the first time, continuing the C (Clang)-first direction
+        the project has followed since the rewrite.</p>
+    </div>
+
+    <div class="devlog">
       <div class="devlog-meta">2026-07-19 · log #4 · <span class="v">v2.5.8</span></div>
-      <h3>v2.5.8 — latest release</h3>
-      <p>Latest tag off <code>main</code>. The C native build remains the primary path,
-        and Larpino is stable enough to lean on as the default inference path for
-        <code>/get larpino@1b</code>. Early work on a GUI has started, targeting the
-        next major release, <strong>v3.0.0</strong>.</p>
+      <h3>v2.5.8</h3>
+      <p>Tag off <code>main</code> ahead of the v3.0.0 "Baking Bread" major release.
+        The C native build remains the primary path, and Larpino is stable enough to
+        lean on as the default inference path for <code>/get larpino@1b</code>. Early
+        work on a GUI has started, targeting the next major release, <strong>v3.0.0</strong>.</p>
     </div>
 
     <div class="devlog">
@@ -787,6 +940,21 @@ cmake --build build</code></pre>
       <div>
         <span class="contributor-name">myrachane</span>
         <span class="contributor-role">creator &amp; maintainer</span>
+      </div>
+    </div>
+    <div class="contributor-card">
+      <img
+        class="contributor-pfp"
+        src="https://github.com/emtypyie.png"
+        alt="emtypyie"
+        width="30"
+        height="30"
+        style="object-fit:cover;font-size:0;"
+        onerror="this.outerHTML = '<div class=&quot;contributor-pfp&quot;>E</div>'"
+      />
+      <div>
+        <span class="contributor-name">emtypyie</span>
+        <span class="contributor-role">contributor</span>
       </div>
     </div>
     <p><a href="https://github.com/myrachane/Emtypyie.cli" target="_blank" rel="noopener">See more on github.com/myrachane/Emtypyie.cli →</a></p>
@@ -859,7 +1027,7 @@ cmake --build build</code></pre>
       const tag = data.tag_name || data.name;
       if (tag) versionEl.textContent = tag.startsWith('v') ? tag : `v${tag}`;
     })
-    .catch(() => { versionEl.textContent = 'v2.5.8'; });
+    .catch(() => { versionEl.textContent = 'v3.0.2'; });
 
   fetch(`https://api.github.com/repos/${REPO}`)
     .then(r => { if (!r.ok) throw new Error('no repo data'); return r.json(); })
@@ -868,6 +1036,31 @@ cmake --build build</code></pre>
       if (typeof stars === 'number') starEl.textContent = `★ ${stars}`;
     })
     .catch(() => { starEl.textContent = '★ —'; });
+
+  /* ── MOBILE NAV DRAWER ── */
+  const menuToggle = document.getElementById('menuToggle');
+  const navBackdrop = document.getElementById('navBackdrop');
+  const sidebarNav = document.getElementById('sidebarNav');
+
+  function setNavOpen(open){
+    document.body.classList.toggle('nav-open', open);
+    menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  menuToggle.addEventListener('click', () => {
+    setNavOpen(!document.body.classList.contains('nav-open'));
+  });
+  navBackdrop.addEventListener('click', () => setNavOpen(false));
+  sidebarNav.addEventListener('click', (e) => {
+    if (e.target.closest('a')) setNavOpen(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setNavOpen(false);
+  });
+  // If the viewport is resized past the mobile breakpoint, make sure the drawer state resets.
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 780) setNavOpen(false);
+  });
 
   /* ── SEARCH ── */
   const searchInput = document.getElementById('searchInput');
