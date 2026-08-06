@@ -1,58 +1,65 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="amber">
+<html lang="en" data-theme="violet">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Emtypyie CLI</title>
+<meta name="description" content="emtypyie-cli is a terminal-first runtime for fetching, running, and managing emtypyie projects — install via winget or npm.">
 <link rel="icon" type="image/jpeg" href="https://cdn.emtypyie.in/assets/favicon.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=VT323&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=VT323&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root, [data-theme="white"] {
-  --bg:      #f7f4f0;
-  --bg2:     #efece5;
-  --bg3:     #e6e2d9;
-  --nav-bg:  rgba(247, 244, 240, 0.78);
+  --bg:      #f5f3fa;
+  --bg2:     #ece7f5;
+  --bg3:     #e1d9ee;
+  --nav-bg:  rgba(245, 243, 250, 0.78);
   --serif:   'DM Serif Display', Georgia, serif;
-  --ink:     #1c1c1c;
-  --ink2:    #4a4a4a;
-  --muted:   #8a8478;
-  --rule:    #d6d0c8;
-  --accent:  #ffb000;
-  --accent-deep: #a06800;
-  --accent2: #39ff7a;
+  --ink:     #1e1533;
+  --ink2:    #4a3d66;
+  --muted:   #8477a3;
+  --rule:    #d7cfe8;
+  --accent:  #a78bfa;
+  --accent-deep: #6d28d9;
+  --accent2: #22d3ee;
   --danger:  #c62828;
-  --accent-text: #8a5b00;
-  --accent2-text: #16794a;
-  --btn-ink: #1c1408;
+  --accent-text: #6d28d9;
+  --accent2-text: #0e7490;
+  --btn-ink: #1e1033;
   --display: 'VT323', monospace;
   --mono: 'JetBrains Mono', monospace;
   --glow: none;
 }
 
-[data-theme="amber"] {
-  --bg:      #0a0704;
-  --bg2:     #120d07;
-  --bg3:     #18110a;
-  --nav-bg:  rgba(10, 7, 4, 0.78);
+[data-theme="violet"] {
+  --bg:      #0c0714;
+  --bg2:     #150f22;
+  --bg3:     #1c1430;
+  --nav-bg:  rgba(12, 7, 20, 0.78);
   --serif:   'DM Serif Display', Georgia, serif;
-  --ink:     #ffdba3;
-  --ink2:    #d9a761;
-  --muted:   #ffffff;
-  --rule:    #3a2a14;
-  --accent:  #ffb000;
-  --accent-deep: #a06800;
-  --accent2: #39ff7a;
+  --ink:     #e8dcff;
+  --ink2:    #b79ee0;
+  --rule:    #2f2247;
+  --accent:  #a78bfa;
+  --accent-deep: #6d28d9;
+  --accent2: #22d3ee;
   --danger:  #ff5c5c;
-  --accent-text: #ffb000;
-  --accent2-text: #39ff7a;
-  --btn-ink: #0a0704;
-  --glow: 0 0 6px rgba(255,176,0,0.55);
+  --accent-text: #c4b5fd;
+  --accent2-text: #22d3ee;
+  --btn-ink: #0c0714;
+  --muted:   #6f5c94;
+  --glow: 0 0 6px rgba(167,139,250,0.55);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
 html, body {
   background: var(--bg);
   color: var(--ink);
@@ -62,8 +69,8 @@ html, body {
   position: relative;
 }
 
-/* CRT scanline + vignette overlay (amber theme only) */
-[data-theme="amber"] body::before {
+/* CRT scanline + vignette overlay (violet theme only) */
+[data-theme="violet"] body::before {
   content: '';
   position: fixed; inset: 0; z-index: 500; pointer-events: none;
   background: repeating-linear-gradient(
@@ -76,7 +83,7 @@ html, body {
   mix-blend-mode: multiply;
   opacity: 0.35;
 }
-[data-theme="amber"] body::after {
+[data-theme="violet"] body::after {
   content: '';
   position: fixed; inset: 0; z-index: 499; pointer-events: none;
   box-shadow: inset 0 0 160px rgba(0,0,0,0.75), inset 0 0 60px rgba(0,0,0,0.5);
@@ -128,30 +135,27 @@ nav {
 }
 .nav-links a::before { content: '/'; color: var(--muted); }
 .nav-links a:hover { border-color: var(--rule); background: var(--bg2); color: var(--accent-text); }
-.nav-links a svg { display: none; }
 
 .theme-toggle {
   position: relative; width: 56px; height: 26px;
   background: var(--bg2); border: 1px solid var(--rule);
   border-radius: 3px; cursor: pointer;
   flex-shrink: 0; transition: background 0.3s, border-color 0.3s;
-  overflow: hidden;
-  font-family: var(--mono); font-size: 0.55rem; color: var(--muted);
+  padding: 0;
 }
 .theme-toggle-thumb {
   position: absolute; top: 2px; left: 2px;
   width: 24px; height: 20px; border-radius: 2px;
   background: var(--accent);
   box-shadow: var(--glow);
-  transition: transform 0.3s cubic-bezier(.65,0,.35,1);
+  transition: transform 0.3s cubic-bezier(.65,0,.35,1), background 0.2s;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 0.46rem; font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--btn-ink);
+  pointer-events: none;
 }
 [data-theme="white"] .theme-toggle-thumb { transform: translateX(28px); }
-.theme-toggle .icon-sun, .theme-toggle .icon-moon {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  transition: opacity 0.25s; font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.02em;
-}
-.theme-toggle .icon-sun { left: 6px; color: var(--btn-ink); font-weight: 700; }
-.theme-toggle .icon-moon { right: 6px; color: var(--muted); }
 
 .support-fab {
   position: fixed; top: 68px; right: 24px; z-index: 60;
@@ -310,6 +314,15 @@ nav {
   color: var(--muted);
   margin-top: 0.6rem;
   font-weight: 400;
+}
+.install-pending-note {
+  font-size: 0.72rem;
+  color: var(--danger);
+  margin-top: 0.5rem;
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+  max-width: 480px;
+  line-height: 1.5;
 }
 .install-gh-link { margin-top: 1.2rem; }
 .install-gh-link a {
@@ -703,10 +716,8 @@ footer {
       <li><a href="/blogs/index.html">blog</a></li>
       <li><a href="https://github.com/emtypyie" target="_blank" rel="noopener">github</a></li>
     </ul>
-    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle terminal color" title="Toggle theme">
-      <span class="icon-sun">AMB</span>
-      <span class="icon-moon">WHT</span>
-      <div class="theme-toggle-thumb"></div>
+    <button class="theme-toggle" id="theme-toggle" role="switch" aria-checked="false" aria-label="Toggle terminal color theme" title="Toggle theme">
+      <span class="theme-toggle-thumb" id="theme-toggle-thumb">VIO</span>
     </button>
     <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
       <span></span><span></span><span></span>
@@ -731,7 +742,7 @@ footer {
 <!-- CLI HERO -->
 <section class="cli-hero">
   <div class="cli-hero-inner">
-    <span class="cli-hero-badge">version <span class="version" id="cli-version">loading</span> <span style="color:var(--muted)">—</span> <span id="cli-release" style="color:var(--accent2-text)">Wandering Witches</span></span>
+    <span class="cli-hero-badge">version <span class="version" id="cli-version">loading</span> <span style="color:var(--muted)">—</span> <span id="cli-release" style="color:var(--accent2-text)">Baking Bread</span></span>
     <h1>emtypyie <span class="accent">CLI</span></h1>
     <p class="cli-hero-tagline">code. create. conquer.<span class="cursor"></span></p>
     <p>Run emtypyie projects from your terminal with ease &mdash; the future runtime engine.</p>
@@ -750,18 +761,15 @@ footer {
       <p>Install the native C binary (recommended) or the Node.js version</p>
     </div>
     <div class="install-cmd">
-      <code>winget install emtypyie.emtypyie-cli</code>
+      <code>winget install emtypyie.cli</code>
       <button class="install-copy" id="install-copy-winget-btn" type="button">Copy</button>
     </div>
-    <div class="install-cmd">
-      <code>choco install emtypyie-cli</code>
-      <button class="install-copy" id="install-copy-choco-btn" type="button">Copy</button>
-    </div>
+    <p class="install-pending-note">&#9888; The winget package is currently under review in the Windows Package Manager community repo and may not resolve yet. Use npm in the meantime.</p>
     <div class="install-cmd">
       <code>npm install -g emtypyie-cli</code>
       <button class="install-copy" id="install-copy-btn" type="button">Copy</button>
     </div>
-    <p class="install-deps-note">The winget &amp; choco packages ship the self-contained C native build. npm installs the Node.js version (requires Node 18+). After installation, run <code style="font-family:var(--mono);font-size:0.72rem;background:var(--bg2);border:1px solid var(--rule);color:var(--accent-text);padding:0.08rem 0.3rem;">emtypyie</code> in your terminal to start.</p>
+    <p class="install-deps-note">The winget package ships the self-contained C native build. npm installs the Node.js version (requires Node 18+). After installation, run <code style="font-family:var(--mono);font-size:0.72rem;background:var(--bg2);border:1px solid var(--rule);color:var(--accent-text);padding:0.08rem 0.3rem;">emtypyie</code> in your terminal to start.</p>
     <div class="download-row" id="download-row">
       <a class="download-btn" id="dl-native" href="#">&#9660; C Native EXE <span class="size">loading</span></a>
       <a class="download-btn" id="dl-node" href="#">&#9660; Node.js EXE <span class="size">loading</span></a>
@@ -922,7 +930,7 @@ footer {
       </div>
       <div class="cmd-card">
         <div class="cmd-name">Winget Support</div>
-        <div class="cmd-desc">Install via winget: emtypyie.emtypyie-cli</div>
+        <div class="cmd-desc">Install via winget: emtypyie.cli (pending review)</div>
       </div>
       <div class="cmd-card">
         <div class="cmd-name">Larpino AI Engine</div>
@@ -1028,7 +1036,7 @@ footer {
           <span class="faq-icon"></span>
         </button>
         <div class="faq-answer-wrap"><div class="faq-answer-inner"><div class="faq-answer">
-          Yes, Emtypyie.cli is an official product of EMTYPYIE.IN and is maintained by The Department of Informatics. It will be used as the core runtime for further projects and tools.
+          Yes, emtypyie-cli is an official product of emtypyie.in and is maintained by the Department of Informatics. It will be used as the core runtime for further projects and tools.
         </div></div></div>
       </div>
 
@@ -1182,10 +1190,12 @@ footer {
 </div>
 
 <script>
-/* ── THEME TOGGLE (amber phosphor / white light) ── */
+/* ── THEME TOGGLE (violet phosphor / white light) ── */
 const html = document.documentElement;
 const themeToggle = document.getElementById('theme-toggle');
 const footerLogo = document.getElementById('footer-logo');
+
+const themeToggleThumb = document.getElementById('theme-toggle-thumb');
 
 function applyTheme(theme) {
   html.setAttribute('data-theme', theme);
@@ -1193,14 +1203,17 @@ function applyTheme(theme) {
   footerLogo.src = theme === 'white'
     ? 'https://cdn.emtypyie.in/assets/covi_black.png'
     : 'https://cdn.emtypyie.in/assets/covi_white.png';
+  themeToggle.setAttribute('aria-checked', theme === 'white' ? 'true' : 'false');
+  if (themeToggleThumb) themeToggleThumb.textContent = theme === 'white' ? 'WHT' : 'VIO';
 }
 
-const savedTheme = localStorage.getItem('emty-theme') || 'amber';
+let savedTheme = localStorage.getItem('emty-theme') || 'violet';
+if (savedTheme === 'amber') savedTheme = 'violet'; // migrate visitors who had the old theme saved
 applyTheme(savedTheme);
 
 themeToggle.addEventListener('click', () => {
   const current = html.getAttribute('data-theme');
-  applyTheme(current === 'white' ? 'amber' : 'white');
+  applyTheme(current === 'white' ? 'violet' : 'white');
 });
 
 /* ── HAMBURGER ── */
@@ -1251,6 +1264,17 @@ fetch('https://registry.npmjs.org/emtypyie-cli/latest')
   })
   .catch(() => {
     versionEl.textContent = 'unknown';
+    const fallbackUrl = 'https://github.com/emtypyie/emtypyie-cli/releases/latest';
+    const nativeBtn = document.getElementById('dl-native');
+    const nodeBtn = document.getElementById('dl-node');
+    [nativeBtn, nodeBtn].forEach(btn => {
+      if (!btn) return;
+      btn.href = fallbackUrl;
+      btn.target = '_blank';
+      btn.rel = 'noopener';
+      const sizeEl = btn.querySelector('.size');
+      if (sizeEl) sizeEl.textContent = 'see releases';
+    });
   });
 
 /* ── BUILD INFO (platform detection) ── */
@@ -1281,7 +1305,7 @@ copyBtn.addEventListener('click', () => {
 
 const wingetCopyBtn = document.getElementById('install-copy-winget-btn');
 wingetCopyBtn.addEventListener('click', () => {
-  navigator.clipboard.writeText('winget install emtypyie.emtypyie-cli').then(() => {
+  navigator.clipboard.writeText('winget install emtypyie.cli').then(() => {
     wingetCopyBtn.textContent = 'Copied!';
     wingetCopyBtn.classList.add('copied');
     setTimeout(() => {
@@ -1290,20 +1314,6 @@ wingetCopyBtn.addEventListener('click', () => {
     }, 2000);
   });
 });
-
-const chocoCopyBtn = document.getElementById('install-copy-choco-btn');
-if (chocoCopyBtn) {
-  chocoCopyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText('choco install emtypyie-cli').then(() => {
-      chocoCopyBtn.textContent = 'Copied!';
-      chocoCopyBtn.classList.add('copied');
-      setTimeout(() => {
-        chocoCopyBtn.textContent = 'Copy';
-        chocoCopyBtn.classList.remove('copied');
-      }, 2000);
-    });
-  });
-}
 
 /* ── FAQ ACCORDION ── */
 document.querySelectorAll('.faq-item').forEach(item => {
@@ -1365,9 +1375,9 @@ document.getElementById('support-continue-btn').addEventListener('click', () => 
   qrHeading.textContent = `Pay \u20B9${supportAmount}`;
 
   const theme = html.getAttribute('data-theme');
-  const fgColor = theme === 'white' ? '1c1c1c' : 'ffdba3';
-  const bgColor = theme === 'white' ? 'e6e2d9' : '18110a';
-  const upiLink = `upi://pay?pa=${UPI_ID}&pn=${UPI_NAME}&am=${supportAmount}&cu=INR&tn=Support%20for%20Emty`;
+  const fgColor = theme === 'white' ? '1e1533' : 'e8dcff';
+  const bgColor = theme === 'white' ? 'e1d9ee' : '1c1430';
+  const upiLink = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(UPI_NAME)}&am=${supportAmount}&cu=INR&tn=Support%20for%20Emty`;
 
   document.getElementById('upi-app-link').href = upiLink;
   qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=190x190&data=${encodeURIComponent(upiLink)}&color=${fgColor}&bgcolor=${bgColor}&qzone=1`;
