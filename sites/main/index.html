@@ -445,10 +445,6 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
   max-width: 1200px; margin: 0 auto;
   padding: 8vh 3rem 6vh;
   border-bottom: 2px solid var(--line);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: center;
   position: relative;
 }
 .hero::after {
@@ -461,22 +457,23 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
   pointer-events: none;
   opacity: 0.65;
 }
-.hero-left, .hero-right { position: relative; z-index: 1; }
-.hero-right::before {
+.hero::before {
   content: '';
-  position: absolute; left: -46px; bottom: -34px;
-  width: 118px; height: 118px;
+  position: absolute; left: -3.5rem; bottom: 2rem;
+  width: 130px; height: 130px;
   border: 2px solid var(--line); border-radius: 50%;
-  opacity: 0.3;
+  opacity: 0.25;
   pointer-events: none; z-index: 0;
 }
-.hero-right::after {
-  content: '';
-  position: absolute; right: -20px; top: -30px;
-  width: 16px; height: 16px;
-  background: var(--red); border: 2px solid var(--line);
-  z-index: 0; pointer-events: none;
+.hero-headline-row {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 3rem;
+  align-items: end;
+  margin-bottom: 2.6rem;
+  position: relative; z-index: 1;
 }
+.hero-name-col, .hero-side-col { position: relative; z-index: 1; }
 .eyebrow {
   font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.18em;
   text-transform: uppercase; color: var(--ink); margin-bottom: 1.1rem;
@@ -485,33 +482,59 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
 }
 .eyebrow::before { content: ''; display: block; width: 26px; height: 3px; background: var(--red); flex-shrink: 0; }
 .hero-site-name {
-  font-family: var(--sans); font-size: clamp(1.9rem, 3.6vw, 2.9rem);
-  font-weight: 700; color: var(--ink); letter-spacing: -0.01em;
-  text-transform: uppercase; line-height: 1.04; margin-bottom: 1.1rem;
+  font-family: var(--sans); font-size: clamp(2.6rem, 5.6vw, 4.4rem);
+  font-weight: 800; color: var(--ink); letter-spacing: -0.02em;
+  text-transform: uppercase; line-height: 0.94;
 }
 .hero-site-name .dot { color: var(--red); }
+.hero-side-col { display: flex; flex-direction: column; gap: 1.3rem; }
 .hero-tagline {
-  font-size: clamp(0.82rem, 1.6vw, 0.9rem); font-weight: 500; color: var(--ink2);
-  line-height: 1.8; max-width: 380px;
+  font-size: clamp(0.84rem, 1.6vw, 0.95rem); font-weight: 500; color: var(--ink2);
+  line-height: 1.8;
   background: var(--card);
   border: 2px solid var(--line);
   box-shadow: 4px 4px 0 0 var(--shadow-c);
   padding: 0.9rem 1rem;
-  margin-bottom: 2rem;
   transform: rotate(-0.6deg);
 }
-
-/* ── STATS ── */
-.hero-stats { display: flex; flex-direction: column; gap: 0.7rem; }
-.stat-row {
-  display: flex; align-items: baseline; gap: 0.55rem;
-  font-family: var(--mono); font-size: 0.68rem;
+.hero-cta-row { display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap; }
+.hero-cta-ghost {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: transparent; color: var(--ink);
+  font-family: var(--mono); font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 0.68rem 1.3rem 0.63rem;
+  text-decoration: none; cursor: pointer; border: 2px solid var(--line);
+  border-radius: 0;
+  transition: transform 0.1s ease-out, box-shadow 0.1s ease-out, background 0.15s, color 0.15s;
+  width: -moz-fit-content; width: fit-content;
 }
+.hero-cta-ghost:hover { background: var(--ink); color: var(--canvas); transform: translate(-2px,-2px); box-shadow: 4px 4px 0 0 var(--shadow-c); }
+.hero-cta-ghost:active { transform: translate(1px,1px); box-shadow: none; }
+
+/* ── STATS (open typographic band) ── */
+.hero-stat-strip {
+  display: flex;
+  border: 2px solid var(--line);
+  background: var(--card);
+  box-shadow: 4px 4px 0 0 var(--shadow-c);
+  padding: 1.5rem 0;
+  position: relative; z-index: 1;
+}
+.stat-cell {
+  flex: 1;
+  padding: 0 1.8rem;
+  border-left: 2px solid var(--line);
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.stat-cell:first-child { border-left: none; }
 .stat-num {
-  font-size: 1.2rem; font-weight: 700; color: var(--ink);
+  font-family: var(--mono);
+  font-size: clamp(1.7rem, 2.6vw, 2.3rem); font-weight: 700; color: var(--ink);
   line-height: 1;
 }
-.stat-num.inf-symbol { font-size: 1.9rem; line-height: 0.7; display: inline-block; transform: translateY(0.1rem); }
+.stat-cell:nth-child(2n) .stat-num { color: var(--red); }
+.stat-num.inf-symbol { font-size: clamp(2.2rem, 3.4vw, 2.9rem); line-height: 0.6; display: inline-block; }
 .stat-label { color: var(--muted); letter-spacing: 0.04em; font-weight: 700; text-transform: uppercase; font-size: 0.58rem; }
 
 /* ── TICKER BAR ── */
@@ -705,45 +728,25 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
   gap: 1rem;
 }
 
-/* ── HERO FEATURE CARDS ── */
-.hero-feature-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-top: 1.8rem; }
-.hero-feature-card {
-  display: flex; flex-direction: column; gap: 0.55rem;
-  padding: 1rem 1.1rem 0.9rem;
+/* ── GITHUB PACMAN ── */
+.github-section { border-bottom: 2px solid var(--line); }
+.github-inner { max-width: 1200px; margin: 0 auto; padding: 4rem 3rem 4.5rem; }
+.github-pacman-frame {
+  display: block;
   border: 2px solid var(--line);
-  border-radius: 0;
   background: var(--card);
+  box-shadow: 6px 6px 0 0 var(--shadow-c);
+  padding: 1.2rem;
+  overflow-x: auto;
   text-decoration: none;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 4px 4px 0 0 var(--shadow-c);
   transition: transform 0.15s, box-shadow 0.15s;
 }
-.hero-feature-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 4px;
-  background: var(--red);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.2s ease;
+.github-pacman-frame:hover { transform: translate(-3px,-3px); box-shadow: 9px 9px 0 0 var(--shadow-c); }
+.github-pacman-frame img { display: block; width: 100%; height: auto; min-width: 640px; }
+.github-pacman-caption {
+  font-family: var(--mono); font-size: 0.62rem; color: var(--ink2);
+  letter-spacing: 0.04em; margin-top: 0.9rem; text-transform: uppercase; font-weight: 700;
 }
-.hero-feature-card:hover { transform: translate(-3px,-3px); box-shadow: 7px 7px 0 0 var(--shadow-c); }
-.hero-feature-card:hover::before { transform: scaleX(1); }
-.hero-fc-top { display: flex; align-items: center; justify-content: space-between; }
-.hero-fc-label {
-  font-family: var(--mono); font-size: 0.52rem; letter-spacing: 0.15em;
-  text-transform: uppercase; color: var(--muted); font-weight: 700;
-}
-.hero-fc-arrow { color: var(--muted); transition: color 0.15s, transform 0.15s; flex-shrink: 0; }
-.hero-feature-card:hover .hero-fc-arrow { color: var(--red); transform: translate(2px, -2px); }
-.hero-fc-name {
-  font-size: 0.95rem; font-weight: 700;
-  color: var(--ink); letter-spacing: -0.005em;
-  text-transform: uppercase;
-  transition: color 0.15s;
-}
-.hero-feature-card:hover .hero-fc-name { color: var(--red); }
-.hero-fc-desc { font-size: 0.72rem; font-weight: 400; color: var(--ink2); line-height: 1.55; }
 
 /* ── WRITING / BOOK ── */
 .writing-section { border-bottom: 2px solid var(--line); }
@@ -889,13 +892,15 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
 
 /* ── RESPONSIVE HOME ── */
 @media (max-width: 768px) {
-  .hero {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 6vh 1.4rem 4vh;
-  }
-  .hero-site-name { font-size: clamp(1.6rem, 7vw, 2.2rem); }
-  .hero-tagline { max-width: 100%; }
+  .hero { padding: 6vh 1.4rem 4vh; }
+  .hero-headline-row { grid-template-columns: 1fr; gap: 1.6rem; align-items: start; margin-bottom: 1.8rem; }
+  .hero-site-name { font-size: clamp(2rem, 11vw, 2.6rem); }
+  .hero-cta-row { width: 100%; }
+  .hero-cta-row > a { flex: 1 1 auto; justify-content: center; }
+  .hero-stat-strip { flex-wrap: wrap; row-gap: 1.2rem; padding: 1.3rem 0.5rem; }
+  .stat-cell { flex: 1 1 50%; padding: 0 1rem; }
+  .stat-cell:nth-child(2n+1) { border-left: none; }
+  .stat-cell:nth-child(n+3) { padding-top: 1.2rem; border-top: 2px solid var(--line); margin-top: 0.2rem; }
   .manifesto-inner { padding: 2.5rem 1.4rem; }
   .quote { font-size: clamp(1.05rem, 4.2vw, 1.4rem); padding: 1.3rem 1.4rem; }
   .ticker-inner { padding: 2.5rem 1.4rem 0; }
@@ -903,15 +908,14 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
   .cli-inner { padding: 3rem 1.4rem 3.5rem; }
   .cli-card-body { padding: 1.8rem 1.4rem; }
   .writing-inner { padding: 3rem 1.4rem 3.5rem; }
+  .github-inner { padding: 3rem 1.4rem 3.5rem; }
   .book-card { grid-template-columns: 1fr; }
   .book-cover { min-height: 260px; aspect-ratio: 4 / 3; position: relative; border-right: none; border-bottom: 2px solid var(--line); }
   .book-info { padding: 1.5rem 1.4rem; }
-  .hero-feature-cards { grid-template-columns: 1fr 1fr; }
   .blog-inner { padding: 3rem 1.4rem 3.5rem; }
   .blog-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 400px) {
-  .hero-feature-cards { grid-template-columns: 1fr; }
   .promo-prompt, .cli-card-prompt { display: none; }
 }</style>
 </head>
@@ -1002,48 +1006,36 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-left">
-    <p class="eyebrow">emtypyie.in</p>
-    <h1 class="hero-site-name">EMTYPYIE<span class="dot">.</span>IN</h1>
-    <p class="hero-tagline">A space where I live less like a digital identity but more like a home.</p>
-  </div>
-  <div class="hero-right">
-    <div class="hero-stats">
-      <div class="stat-row">
-        <span class="stat-num">13+</span>
-        <span class="stat-label">projects live</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-num">10k+</span>
-        <span class="stat-label">readers</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-num">1000+</span>
-        <span class="stat-label">sleepless nights</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-num inf-symbol">∞</span>
-        <span class="stat-label">coffees</span>
+  <div class="hero-headline-row">
+    <div class="hero-name-col">
+      <p class="eyebrow">emtypyie.in</p>
+      <h1 class="hero-site-name">EMTYPYIE<span class="dot">.</span>IN</h1>
+    </div>
+    <div class="hero-side-col">
+      <p class="hero-tagline">A space where I live less like a digital identity but more like a home.</p>
+      <div class="hero-cta-row">
+        <a class="promo-cta" href="#writing">Read the log &rarr;</a>
+        <a class="hero-cta-ghost" href="https://wiki.emtypyie.in" target="_blank" rel="noopener">Browse the wiki</a>
       </div>
     </div>
+  </div>
 
-    <div class="hero-feature-cards">
-      <a class="hero-feature-card" href="https://wiki.emtypyie.in" target="_blank" rel="noopener">
-        <div class="hero-fc-top">
-          <span class="hero-fc-label">Knowledge base</span>
-          <svg class="hero-fc-arrow" width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="12" y2="2"/><polyline points="5,2 12,2 12,9"/></svg>
-        </div>
-        <div class="hero-fc-name">Wiki</div>
-        <div class="hero-fc-desc">Notes, research, and things worth remembering.</div>
-      </a>
-      <a class="hero-feature-card" href="https://emtypyie.in/dosa" target="_blank" rel="noopener">
-        <div class="hero-fc-top">
-          <span class="hero-fc-label">Open space</span>
-          <svg class="hero-fc-arrow" width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="12" y2="2"/><polyline points="5,2 12,2 12,9"/></svg>
-        </div>
-        <div class="hero-fc-name">Dosa</div>
-        <div class="hero-fc-desc">Directory of Open Space Autonomy.</div>
-      </a>
+  <div class="hero-stat-strip">
+    <div class="stat-cell">
+      <span class="stat-num">13+</span>
+      <span class="stat-label">projects live</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num">10k+</span>
+      <span class="stat-label">readers</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num">1000+</span>
+      <span class="stat-label">sleepless nights</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num inf-symbol">∞</span>
+      <span class="stat-label">coffees</span>
     </div>
   </div>
 </section>
@@ -1052,6 +1044,21 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
 <section class="ticker-section" id="ticker-section">
   <div class="ticker-inner">
     <div class="ticker-bar" id="ticker-bar"></div>
+  </div>
+</section>
+
+<!-- GITHUB PACMAN -->
+<section class="github-section" id="github-activity">
+  <div class="github-inner">
+    <p class="section-label">github contribution graph</p>
+    <a class="github-pacman-frame" href="https://github.com/emtypyie" target="_blank" rel="noopener">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/emtypyie/emtypyie/output/pacman-contribution-graph-dark.svg">
+        <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/emtypyie/emtypyie/output/pacman-contribution-graph.svg">
+        <img alt="Pac-Man eating emty's GitHub contribution graph" src="https://raw.githubusercontent.com/emtypyie/emtypyie/output/pacman-contribution-graph.svg" loading="lazy">
+      </picture>
+    </a>
+    <p class="github-pacman-caption">updated daily &middot; @emtypyie on GitHub</p>
   </div>
 </section>
 
