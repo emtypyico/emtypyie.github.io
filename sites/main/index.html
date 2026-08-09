@@ -512,30 +512,21 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
 .hero-cta-ghost:hover { background: var(--ink); color: var(--canvas); transform: translate(-2px,-2px); box-shadow: 4px 4px 0 0 var(--shadow-c); }
 .hero-cta-ghost:active { transform: translate(1px,1px); box-shadow: none; }
 
-/* ── STATS (open typographic band) ── */
-.hero-stat-strip {
-  display: flex;
+/* ── HERO PACMAN STRIP ── */
+.hero-pacman-strip {
   border: 2px solid var(--line);
   background: var(--card);
   box-shadow: 4px 4px 0 0 var(--shadow-c);
-  padding: 1.5rem 0;
+  padding: 0.9rem;
   position: relative; z-index: 1;
 }
-.stat-cell {
-  flex: 1;
-  padding: 0 1.8rem;
-  border-left: 2px solid var(--line);
-  display: flex; flex-direction: column; gap: 0.5rem;
+.hero-pacman-strip a { display: block; line-height: 0; text-decoration: none; }
+.hero-pacman-strip img { display: block; width: 100%; height: auto; }
+.hero-pacman-caption {
+  font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted); font-weight: 700;
+  margin-top: 0.6rem; text-align: center;
 }
-.stat-cell:first-child { border-left: none; }
-.stat-num {
-  font-family: var(--mono);
-  font-size: clamp(1.7rem, 2.6vw, 2.3rem); font-weight: 700; color: var(--ink);
-  line-height: 1;
-}
-.stat-cell:nth-child(2n) .stat-num { color: var(--red); }
-.stat-num.inf-symbol { font-size: clamp(2.2rem, 3.4vw, 2.9rem); line-height: 0.6; display: inline-block; }
-.stat-label { color: var(--muted); letter-spacing: 0.04em; font-weight: 700; text-transform: uppercase; font-size: 0.58rem; }
 
 /* ── TICKER BAR ── */
 .ticker-section { border-bottom: 2px solid var(--line); }
@@ -728,26 +719,6 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
   gap: 1rem;
 }
 
-/* ── GITHUB PACMAN ── */
-.github-section { border-bottom: 2px solid var(--line); }
-.github-inner { max-width: 1200px; margin: 0 auto; padding: 4rem 3rem 4.5rem; }
-.github-pacman-frame {
-  display: block;
-  border: 2px solid var(--line);
-  background: var(--card);
-  box-shadow: 6px 6px 0 0 var(--shadow-c);
-  padding: 1.2rem;
-  overflow-x: auto;
-  text-decoration: none;
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.github-pacman-frame:hover { transform: translate(-3px,-3px); box-shadow: 9px 9px 0 0 var(--shadow-c); }
-.github-pacman-frame img { display: block; width: 100%; height: auto; min-width: 640px; }
-.github-pacman-caption {
-  font-family: var(--mono); font-size: 0.62rem; color: var(--ink2);
-  letter-spacing: 0.04em; margin-top: 0.9rem; text-transform: uppercase; font-weight: 700;
-}
-
 /* ── WRITING / BOOK ── */
 .writing-section { border-bottom: 2px solid var(--line); }
 .writing-inner { max-width: 1200px; margin: 0 auto; padding: 4rem 3rem 4.5rem; }
@@ -897,10 +868,7 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
   .hero-site-name { font-size: clamp(2rem, 11vw, 2.6rem); }
   .hero-cta-row { width: 100%; }
   .hero-cta-row > a { flex: 1 1 auto; justify-content: center; }
-  .hero-stat-strip { flex-wrap: wrap; row-gap: 1.2rem; padding: 1.3rem 0.5rem; }
-  .stat-cell { flex: 1 1 50%; padding: 0 1rem; }
-  .stat-cell:nth-child(2n+1) { border-left: none; }
-  .stat-cell:nth-child(n+3) { padding-top: 1.2rem; border-top: 2px solid var(--line); margin-top: 0.2rem; }
+  .hero-pacman-strip { padding: 0.6rem; }
   .manifesto-inner { padding: 2.5rem 1.4rem; }
   .quote { font-size: clamp(1.05rem, 4.2vw, 1.4rem); padding: 1.3rem 1.4rem; }
   .ticker-inner { padding: 2.5rem 1.4rem 0; }
@@ -908,7 +876,6 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
   .cli-inner { padding: 3rem 1.4rem 3.5rem; }
   .cli-card-body { padding: 1.8rem 1.4rem; }
   .writing-inner { padding: 3rem 1.4rem 3.5rem; }
-  .github-inner { padding: 3rem 1.4rem 3.5rem; }
   .book-card { grid-template-columns: 1fr; }
   .book-cover { min-height: 260px; aspect-ratio: 4 / 3; position: relative; border-right: none; border-bottom: 2px solid var(--line); }
   .book-info { padding: 1.5rem 1.4rem; }
@@ -1020,23 +987,15 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
     </div>
   </div>
 
-  <div class="hero-stat-strip">
-    <div class="stat-cell">
-      <span class="stat-num">13+</span>
-      <span class="stat-label">projects live</span>
-    </div>
-    <div class="stat-cell">
-      <span class="stat-num">10k+</span>
-      <span class="stat-label">readers</span>
-    </div>
-    <div class="stat-cell">
-      <span class="stat-num">1000+</span>
-      <span class="stat-label">sleepless nights</span>
-    </div>
-    <div class="stat-cell">
-      <span class="stat-num inf-symbol">∞</span>
-      <span class="stat-label">coffees</span>
-    </div>
+  <div class="hero-pacman-strip" id="hero-pacman">
+    <a href="https://github.com/emtypyie" target="_blank" rel="noopener">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/emtypyie/emtypyie/output/pacman-contribution-graph-dark.svg">
+        <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/emtypyie/emtypyie/output/pacman-contribution-graph.svg">
+        <img alt="Pac-Man eating emty's GitHub contribution graph" src="https://raw.githubusercontent.com/emtypyie/emtypyie/output/pacman-contribution-graph.svg" loading="lazy">
+      </picture>
+    </a>
+    <p class="hero-pacman-caption">github contribution graph &middot; updated daily</p>
   </div>
 </section>
 
@@ -1044,21 +1003,6 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
 <section class="ticker-section" id="ticker-section">
   <div class="ticker-inner">
     <div class="ticker-bar" id="ticker-bar"></div>
-  </div>
-</section>
-
-<!-- GITHUB PACMAN -->
-<section class="github-section" id="github-activity">
-  <div class="github-inner">
-    <p class="section-label">github contribution graph</p>
-    <a class="github-pacman-frame" href="https://github.com/emtypyie" target="_blank" rel="noopener">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/emtypyie/emtypyie/output/pacman-contribution-graph-dark.svg">
-        <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/emtypyie/emtypyie/output/pacman-contribution-graph.svg">
-        <img alt="Pac-Man eating emty's GitHub contribution graph" src="https://raw.githubusercontent.com/emtypyie/emtypyie/output/pacman-contribution-graph.svg" loading="lazy">
-      </picture>
-    </a>
-    <p class="github-pacman-caption">updated daily &middot; @emtypyie on GitHub</p>
   </div>
 </section>
 
