@@ -557,7 +557,16 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
 .load-more-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* ── BLOG POST PAGE ── */
-.post-page-inner { max-width: 720px; margin: 0 auto; padding: 4rem 2rem 5rem; }
+.post-page-inner {
+  max-width: 740px; margin: 2.5rem auto 4rem; padding: 3.5rem 2rem 4rem;
+  background: var(--card);
+  background: color-mix(in srgb, var(--card) 55%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  backdrop-filter: blur(18px) saturate(1.4);
+  border: 2px solid var(--line);
+  box-shadow: 6px 6px 0 0 var(--shadow-c);
+  transition: background 0.3s;
+}
 .post-back-link {
   display: inline-flex; align-items: center; gap: 0.4rem;
   font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.06em;
