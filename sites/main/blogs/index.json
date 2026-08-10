@@ -1,5 +1,14 @@
 [
   {
+    "slug": "buildwithai",
+    "date": "09-08-2026",
+    "title": "BUILD WITH AI — Kolkata",
+    "subtitle": "Prompt engineering tricks, MCP, a prototype, and very good paneer",
+    "tags": ["Event", "AI"],
+    "excerpt": "Attended the BUILD WITH AI 9 August session in Kolkata: prompt engineering tricks, how not to give prompts, MCP, and a prototype built with Google AI Studio, Stitch and Antigravity.",
+    "readTime": "2 min read"
+  },
+  {
     "slug": "arrayonsystems",
     "date": "06-07-2026",
     "title": "Arryon Systems",
