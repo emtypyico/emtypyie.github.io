@@ -275,6 +275,16 @@ nav {
 .music-fab.playing .reel { animation: reel-spin 1.4s linear infinite; }
 @keyframes reel-spin { to { transform: rotate(360deg); } }
 
+/* ── DANCE GIF (plays while music is on) ── */
+#dance-gif {
+  position: fixed; bottom: 1rem; left: 1rem;
+  width: 130px; height: auto; z-index: 55;
+  pointer-events: none; display: none;
+}
+@media (max-width: 768px) {
+  #dance-gif { bottom: calc(max(0.6rem, env(safe-area-inset-bottom)) + 4.6rem); width: 110px; left: 0.75rem; }
+}
+
 /* ── SOCIAL RAIL (desktop only) ── */
 .social-rail {
   position: fixed; left: 0.75rem; top: 50%;
@@ -1101,6 +1111,9 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
   </button>
 </div>
 
+<!-- DANCE GIF (while cassette is playing) -->
+<img id="dance-gif" src="/assets/dance.gif" alt="Dancing while music plays" loading="lazy">
+
 <!-- SHARE TOAST -->
 <div class="share-toast" id="share-toast">Link copied to clipboard</div>
 <div class="social-rail" aria-label="Social links">
@@ -1716,9 +1729,11 @@ const musicAudio = new Audio(musicTracks[0].src);
 musicAudio.loop = true;
 const musicFab = document.getElementById('music-fab');
 const musicFabLabel = document.getElementById('music-fab-label');
+const danceGif = document.getElementById('dance-gif');
 document.getElementById('music-fab-toggle').addEventListener('click', () => {
   musicPlaying = !musicPlaying;
   musicFab.classList.toggle('playing', musicPlaying);
+  danceGif.style.display = musicPlaying ? 'block' : 'none';
   if (musicPlaying) {
     musicAudio.play();
     musicFabLabel.textContent = musicTracks[musicIndex].name;
