@@ -161,8 +161,8 @@ nav {
   transition: background 0.3s ease, border-color 0.3s ease;
 }
 .nav-brand {
-  font-family: var(--mono); font-size: 0.9rem; font-weight: 700;
-  color: var(--ink); text-decoration: none; letter-spacing: 0.04em;
+  font-family: var(--mono); font-size: clamp(1.05rem, 2.6vw, 1.5rem); font-weight: 700;
+  color: var(--ink); text-decoration: none; letter-spacing: 0.06em;
   text-transform: uppercase;
   flex-shrink: 0;
   transition: color 0.15s;
@@ -243,6 +243,38 @@ nav {
 .support-fab:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 0 var(--shadow-c); }
 .support-fab:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 0 var(--shadow-c); }
 
+/* ── FLOATING BUTTON STACK (support + cassette) ── */
+.float-buttons {
+  position: fixed; top: 72px; right: 24px; z-index: 60;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.float-buttons .support-fab { position: static; }
+
+/* ── CASSETTE PLAYER ── */
+.music-fab { display: flex; align-items: stretch; box-shadow: 4px 4px 0 0 var(--shadow-c); }
+.music-fab-toggle {
+  display: inline-flex; align-items: center; gap: 0.42rem;
+  background: var(--card); color: var(--ink);
+  border: 2px solid var(--line); border-right: none;
+  font-family: var(--mono); font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  padding: 0.58rem 0.7rem 0.58rem 0.9rem; cursor: pointer; line-height: 0;
+  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out, background 0.15s, color 0.15s;
+}
+.music-fab-toggle:hover, .music-fab.playing .music-fab-toggle { background: var(--ink); color: var(--canvas); }
+.music-fab-icon { line-height: 0; }
+.music-fab-label { line-height: 1.2; }
+.music-fab-next {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--canvas2); color: var(--ink);
+  border: 2px solid var(--line); padding: 0 0.55rem; cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.music-fab-next:hover { background: var(--blue); color: #fff; }
+.reel { transform-box: fill-box; transform-origin: center; }
+.music-fab.playing .reel { animation: reel-spin 1.4s linear infinite; }
+@keyframes reel-spin { to { transform: rotate(360deg); } }
+
 /* ── SOCIAL RAIL (desktop only) ── */
 .social-rail {
   position: fixed; left: 0.75rem; top: 50%;
@@ -272,7 +304,7 @@ nav {
     flex-direction: row; gap: 0.35rem;
   }
   .social-rail a, .social-rail button { width: 42px; height: 42px; }
-  .support-fab { top: auto; bottom: calc(max(0.6rem, env(safe-area-inset-bottom)) + 4.55rem); }
+  .float-buttons { top: auto; bottom: calc(max(0.6rem, env(safe-area-inset-bottom)) + 4.55rem); }
   .share-toast { bottom: 5.1rem; }
 }
 
@@ -464,7 +496,8 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
 }
 @media (max-width: 768px) {
   nav { padding: 0 1.2rem; }
-  .support-fab { top: 66px; right: 12px; padding: 0.48rem 0.8rem; font-size: 0.62rem; }
+  .float-buttons { top: 66px; right: 12px; gap: 0.4rem; }
+  .support-fab { padding: 0.48rem 0.8rem; font-size: 0.62rem; }
   .footer-inner { flex-direction: column; padding: 1.4rem 1.2rem; }
   .footer-links { align-items: flex-start; }
   .footer-bottom { padding: 1rem 1.2rem 1.4rem; flex-direction: column; gap: 1rem; }
@@ -1051,11 +1084,22 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
   <a href="https://github.com/emtypyie" target="_blank" rel="noopener">GitHub</a>
 </div>
 
-<!-- FLOATING SUPPORT BUTTON -->
-<button class="support-fab" id="support-fab" type="button">
-  <svg width="13" height="13" viewBox="0 0 14 14" fill="currentColor"><path d="M7 12.2C7 12.2 1.2 8.8 1.2 4.9 1.2 2.9 2.8 1.3 4.7 1.3c1 0 2 .5 2.3 1.3.3-.8 1.3-1.3 2.3-1.3 1.9 0 3.5 1.6 3.5 3.6 0 3.9-5.8 7.3-5.8 7.3z"/></svg>
-  <span>Support!</span>
-</button>
+<!-- FLOATING SUPPORT + CASSETTE BUTTONS -->
+<div class="float-buttons" id="float-buttons">
+  <div class="music-fab" id="music-fab">
+    <button type="button" class="music-fab-toggle" id="music-fab-toggle" aria-label="Play or pause cassette" title="Play / pause">
+      <svg class="music-fab-icon" width="15" height="13" viewBox="0 0 16 13" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1h14v11H1z"/><path d="M1 8.6h14"/><g class="reel"><circle cx="5" cy="3.3" r="1.2"/><path d="M5 2.3v2"/></g><g class="reel"><circle cx="11" cy="3.3" r="1.2"/><path d="M11 2.3v2"/></g></svg>
+      <span class="music-fab-label" id="music-fab-label">Cassette</span>
+    </button>
+    <button type="button" class="music-fab-next" id="music-fab-next" aria-label="Next track" title="Next track">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M9.6 1.5h1.4v9H9.6zM1.2 1.6l6.4 4.4-6.4 4.4z"/></svg>
+    </button>
+  </div>
+  <button class="support-fab" id="support-fab" type="button">
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="currentColor"><path d="M7 12.2C7 12.2 1.2 8.8 1.2 4.9 1.2 2.9 2.8 1.3 4.7 1.3c1 0 2 .5 2.3 1.3.3-.8 1.3-1.3 2.3-1.3 1.9 0 3.5 1.6 3.5 3.6 0 3.9-5.8 7.3-5.8 7.3z"/></svg>
+    <span>Support!</span>
+  </button>
+</div>
 
 <!-- SHARE TOAST -->
 <div class="share-toast" id="share-toast">Link copied to clipboard</div>
@@ -1661,6 +1705,34 @@ function updateContinueState() {
 }
 
 document.getElementById('support-fab').addEventListener('click', openSupportModal);
+
+const musicTracks = [
+  { src: '/music/brainrot.mp3', name: 'Brainrot' },
+  { src: '/music/bunnygirl.mp3', name: 'Bunnygirl' }
+];
+let musicIndex = 0;
+let musicPlaying = false;
+const musicAudio = new Audio(musicTracks[0].src);
+musicAudio.loop = true;
+const musicFab = document.getElementById('music-fab');
+const musicFabLabel = document.getElementById('music-fab-label');
+document.getElementById('music-fab-toggle').addEventListener('click', () => {
+  musicPlaying = !musicPlaying;
+  musicFab.classList.toggle('playing', musicPlaying);
+  if (musicPlaying) {
+    musicAudio.play();
+    musicFabLabel.textContent = musicTracks[musicIndex].name;
+  } else {
+    musicAudio.pause();
+    musicFabLabel.textContent = 'Cassette';
+  }
+});
+document.getElementById('music-fab-next').addEventListener('click', () => {
+  musicIndex = (musicIndex + 1) % musicTracks.length;
+  musicAudio.src = musicTracks[musicIndex].src;
+  if (musicPlaying) musicAudio.play();
+  musicFabLabel.textContent = musicTracks[musicIndex].name;
+});
 
 document.querySelectorAll('.amount-option').forEach(btn => {
   btn.addEventListener('click', () => {
