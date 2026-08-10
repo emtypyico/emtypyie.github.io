@@ -989,7 +989,7 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
 
   <div class="hero-pacman-strip" id="hero-pacman">
     <a href="https://github.com/emtypyie" target="_blank" rel="noopener">
-      <img alt="Pac-Man eating emty's GitHub contribution graph" src="https://raw.githubusercontent.com/emtypyie/emtypyie/output/pacman-contribution-graph.svg" loading="lazy">
+      <img id="pacman-graph" alt="Pac-Man eating emty's GitHub contribution graph" src="https://raw.githubusercontent.com/emtypyie/emtypyie/output/pacman-contribution-graph.svg" loading="lazy">
     </a>
     <p class="hero-pacman-caption">github contribution graph &middot; updated daily</p>
   </div>
@@ -1214,6 +1214,12 @@ function applyTheme(theme) {
   footerLogo.src = theme === 'dark'
     ? 'https://cdn.emtypyie.in/assets/covi_white.png'
     : 'https://cdn.emtypyie.in/assets/covi_black.png';
+  const pacmanGraph = document.getElementById('pacman-graph');
+  if (pacmanGraph) {
+    pacmanGraph.src = (theme === 'dark' || theme === 'violet')
+      ? 'https://raw.githubusercontent.com/emtypyie/emtypyie/output/pacman-contribution-graph-dark.svg'
+      : 'https://raw.githubusercontent.com/emtypyie/emtypyie/output/pacman-contribution-graph.svg';
+  }
 }
 
 const savedTheme = localStorage.getItem('emty-theme') || 'light';
