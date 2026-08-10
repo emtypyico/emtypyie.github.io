@@ -591,22 +591,21 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
   font-size: 0.76rem; font-weight: 400; color: var(--ink2); line-height: 1.65; flex: 1;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-.gallery-card-details {
-  list-style: none; margin: 0.65rem 0 0.8rem; padding: 0.6rem 0 0;
-  display: flex; flex-direction: column; gap: 0.28rem;
-  border-top: 1px dashed var(--rule);
-}
-.gallery-card-details li {
-  font-family: var(--mono); font-size: 0.58rem; color: var(--muted);
-  font-weight: 700; letter-spacing: 0.02em; line-height: 1.5;
-}
-.gallery-card-details li::before { content: '\25B8  '; color: var(--red); }
 .gallery-card-footer {
   display: flex; align-items: center; justify-content: space-between;
   padding-top: 0.8rem; margin-top: 0.8rem; border-top: 2px dashed var(--rule);
   font-family: var(--mono); font-size: 0.62rem; color: var(--muted); font-weight: 700;
 }
 .gallery-count { display: flex; align-items: center; gap: 0.3rem; }
+.gallery-card-actions { display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; justify-content: flex-end; }
+.gallery-card-action {
+  font-family: var(--mono); font-size: 0.56rem; font-weight: 700;
+  color: var(--ink); text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase;
+  border: 2px solid var(--line); padding: 0.18rem 0.5rem; background: var(--card);
+  box-shadow: 2px 2px 0 0 var(--shadow-c);
+  transition: transform 0.12s, box-shadow 0.12s, color 0.12s, background 0.12s;
+}
+.gallery-card-action:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 0 var(--shadow-c); color: #fff; background: var(--red); }
 
 /* ── LIGHTBOX ── */
 .lightbox-overlay {
@@ -632,16 +631,6 @@ footer { border-top: 2px solid var(--line); background: var(--canvas); transitio
   font-family: var(--mono); font-size: 0.58rem; color: var(--muted); font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 0.2rem;
 }
-.lightbox-details {
-  list-style: none; margin: 0.6rem 0 0; padding: 0.6rem 0 0;
-  display: flex; flex-direction: column; gap: 0.3rem;
-  border-top: 1px dashed var(--rule);
-}
-.lightbox-details li {
-  font-family: var(--mono); font-size: 0.62rem; color: var(--muted);
-  font-weight: 700; letter-spacing: 0.02em; line-height: 1.55;
-}
-.lightbox-details li::before { content: '\25B8  '; color: var(--red); }
 .lightbox-close {
   position: fixed; top: 1.2rem; right: 1.4rem; z-index: 151;
   background: var(--card); border: 2px solid var(--line);
@@ -1009,6 +998,10 @@ function renderGalleryCards() {
     const pillsHtml = tags.map(t => `<span class="blog-pill">${t}</span>`).join('');
     const n = galleryImages(item).length;
     const count = n ? `${n} ${n === 1 ? 'snap' : 'snaps'}` : 'no photos';
+    const actions = [
+      item.blog ? `<a class="gallery-card-action" href="${item.blog}">read blog →</a>` : '',
+      item.insta ? `<a class="gallery-card-action" href="${item.insta}" target="_blank" rel="noopener">instagram ↗</a>` : ''
+    ].filter(Boolean).join('');
     const realIdx = filteredSnaps.indexOf(item);
     return `
     <div class="gallery-card" data-idx="${realIdx}" role="button" tabindex="0">
@@ -1020,21 +1013,22 @@ function renderGalleryCards() {
         </div>
         <h3 class="gallery-card-title">${item.title}</h3>
         <p class="gallery-card-excerpt">${item.description || ''}</p>
-        ${(item.details && item.details.length) ? `<ul class="gallery-card-details">${item.details.map(d => `<li>${d}</li>`).join('')}</ul>` : ''}
         <div class="gallery-card-footer">
           <span class="gallery-count">${IMG_ICON} ${count}</span>
+          <span class="gallery-card-actions">${actions}</span>
         </div>
       </div>
     </div>`;
   }).join('');
 
   list.querySelectorAll('.gallery-card').forEach(card => {
-    const open = () => {
+    const open = (e) => {
+      if (e && e.target.closest('a')) return;
       const item = filteredSnaps[parseInt(card.dataset.idx, 10)];
       if (item) openLightbox(item);
     };
     card.addEventListener('click', open);
-    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(e); } });
   });
 
   if (visibleCount < filteredSnaps.length) {
@@ -1119,9 +1113,6 @@ function updateLightbox() {
   }
   const heading = `<span>${cur.item.title} · ${fmtDate(cur.item.date)}</span>`;
   let body = cur.img && cur.img.caption ? cur.img.caption : (cur.item.description || '');
-  if (cur.item.details && cur.item.details.length) {
-    body += `<ul class="lightbox-details">` + cur.item.details.map(d => `<li>${d}</li>`).join('') + `</ul>`;
-  }
   cap.innerHTML = heading + body;
 }
 function closeLightbox() {
